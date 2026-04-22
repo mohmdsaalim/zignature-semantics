@@ -1,0 +1,37 @@
+[project]
+name = "agency-platform-backend"
+version = "0.1.0"
+requires-python = ">=3.11"
+dependencies = [
+    "django==4.2.*",
+    "djangorestframework>=3.15,<3.16",
+    "django-environ>=0.11,<0.12",
+    "psycopg[binary]>=3.1,<4",
+    "django-cors-headers>=4.0,<5",
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=8.0",
+    "pytest-django>=4.8",
+    "ruff>=0.4",
+]
+
+[tool.ruff]
+line-length = 88
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "W", "F", "I", "B", "UP"]
+ignore = ["E501"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["apps", "common", "config"]
+
+[tool.pytest.ini_options]
+DJANGO_SETTINGS_MODULE = "config.settings.development"
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+testpaths = ["tests"]
+addopts = "-v --tb=short"
