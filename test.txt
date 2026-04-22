@@ -1,8 +1,5 @@
 Hey Stoats!!
 Iam Muhammed Swalih N K
 
-<<<<<<< HEAD
-And i am Dennis Joseph..
-=======
-And i am Dennis Joseph
->>>>>>> 64389026ed9be38b44babc0cd1c0d06203e123c2
+
+And i am Dennis Joseph.......
