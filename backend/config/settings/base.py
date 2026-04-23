@@ -38,8 +38,8 @@ THIRD_PARTY_APPS = [
 
 LOCAL_APPS = [
     "apps.accounts",   # ← Added Ticket 1.2
-    # "apps.profiles",   ← Ticket 1.6
-    # "apps.careers",    ← Ticket 2.1
+    "apps.profiles",   # ← Ticket 1.6
+    # "apps.careers",   #← Ticket 2.1
     "common",
 ]
 
