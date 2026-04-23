@@ -3,41 +3,6 @@ revision = 3
 requires-python = ">=3.11"
 
 [[package]]
-name = "agency-platform-backend"
-version = "0.1.0"
-source = { virtual = "." }
-dependencies = [
-    { name = "django" },
-    { name = "django-cors-headers" },
-    { name = "django-environ" },
-    { name = "djangorestframework" },
-    { name = "psycopg", extra = ["binary"] },
-]
-
-[package.dev-dependencies]
-dev = [
-    { name = "pytest" },
-    { name = "pytest-django" },
-    { name = "ruff" },
-]
-
-[package.metadata]
-requires-dist = [
-    { name = "django", specifier = "==4.2.*" },
-    { name = "django-cors-headers", specifier = ">=4.0,<5" },
-    { name = "django-environ", specifier = ">=0.11,<0.12" },
-    { name = "djangorestframework", specifier = ">=3.15,<3.16" },
-    { name = "psycopg", extras = ["binary"], specifier = ">=3.1,<4" },
-]
-
-[package.metadata.requires-dev]
-dev = [
-    { name = "pytest", specifier = ">=8.0" },
-    { name = "pytest-django", specifier = ">=4.8" },
-    { name = "ruff", specifier = ">=0.4" },
-]
-
-[[package]]
 name = "asgiref"
 version = "3.11.1"
 source = { registry = "https://pypi.org/simple" }
@@ -286,4 +251,39 @@ source = { registry = "https://pypi.org/simple" }
 sdist = { url = "https://files.pythonhosted.org/packages/19/f5/cd531b2d15a671a40c0f66cf06bc3570a12cd56eef98960068ebbad1bf5a/tzdata-2026.1.tar.gz", hash = "sha256:67658a1903c75917309e753fdc349ac0efd8c27db7a0cb406a25be4840f87f98", size = 197639, upload-time = "2026-04-03T11:25:22.002Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/b0/70/d460bd685a170790ec89317e9bd33047988e4bce507b831f5db771e142de/tzdata-2026.1-py2.py3-none-any.whl", hash = "sha256:4b1d2be7ac37ceafd7327b961aa3a54e467efbdb563a23655fbfe0d39cfc42a9", size = 348952, upload-time = "2026-04-03T11:25:20.313Z" },
+]
+
+[[package]]
+name = "zignature-backend"
+version = "0.1.0"
+source = { virtual = "." }
+dependencies = [
+    { name = "django" },
+    { name = "django-cors-headers" },
+    { name = "django-environ" },
+    { name = "djangorestframework" },
+    { name = "psycopg", extra = ["binary"] },
+]
+
+[package.dev-dependencies]
+dev = [
+    { name = "pytest" },
+    { name = "pytest-django" },
+    { name = "ruff" },
+]
+
+[package.metadata]
+requires-dist = [
+    { name = "django", specifier = "==4.2.*" },
+    { name = "django-cors-headers", specifier = ">=4.0,<5" },
+    { name = "django-environ", specifier = ">=0.11,<0.12" },
+    { name = "djangorestframework", specifier = ">=3.15,<3.16" },
+    { name = "psycopg", extras = ["binary"], specifier = ">=3.1,<4" },
+]
+
+[package.metadata.requires-dev]
+dev = [
+    { name = "pytest", specifier = ">=8.0" },
+    { name = "pytest-django", specifier = ">=4.8" },
+    { name = "ruff", specifier = ">=0.4" },
 ]
