@@ -6,4 +6,3 @@
 # Setup completed for dennis's here(team member authentication)
 
 # Stoats are deadly predators(Testing sinan's pull request issue)
-# Stoats dev is dangerous when you code push without test
