@@ -16,6 +16,9 @@ env = environ.Env(
     DB_HOST=(str, "127.0.0.1"),
 )
 
+# Read .env file
+environ.Env.read_env(BASE_DIR / ".env")
+
 SECRET_KEY = env("SECRET_KEY")
 ALLOWED_HOSTS = env("ALLOWED_HOSTS")
 
@@ -34,7 +37,7 @@ THIRD_PARTY_APPS = [
 ]
 
 LOCAL_APPS = [
-    # "apps.accounts",   ← Ticket 1.2
+    "apps.accounts",   # ← Added Ticket 1.2
     # "apps.profiles",   ← Ticket 1.6
     # "apps.careers",    ← Ticket 2.1
     "common",
@@ -96,8 +99,8 @@ MEDIA_ROOT = env("MEDIA_ROOT", default=str(BASE_DIR / "media"))
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-# ⚠️ Uncommented in Ticket 1.2 — DO NOT run migrate before that
-# AUTH_USER_MODEL = "accounts.User"
+# Custom User model — must be set before the first migration
+AUTH_USER_MODEL = "accounts.User"
 
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": [
