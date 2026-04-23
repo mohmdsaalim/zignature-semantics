@@ -99,6 +99,16 @@ uv run pytest
 ```
 (Our `base.py` is already configured to load `.env` automatically.)
 
+### 5. Collation Version Mismatch (PostgreSQL on Docker)
+**Symptom**: `psycopg.errors.InternalError_: template database "template1" has a collation version, but no actual collation version could be determined`.
+**Cause**: This often occurs on Apple Silicon Macs when the database volume was initialized with different collation metadata than what the current container version expects.
+**Fix**: You must reset the database volume. **Note: This will delete all local data.**
+```bash
+docker compose down -v
+docker compose up -d
+```
+After this, you will need to re-run your migrations and recreate your superuser.
+
 ---
 
 ## 📋 Database Reset Procedure
