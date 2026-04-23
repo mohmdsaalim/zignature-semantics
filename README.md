@@ -1,9 +1,5 @@
 # Zignature Platform
 
-<<<<<<< HEAD
-# Stoats are deadly predators(Testing sinan's pull request issue)
-# Stoats dev is dangerous when you code push without test
-=======
 A modern, high-performance job agency platform built with **Django**, **PostgreSQL**, and **React**.
 
 ---
@@ -113,4 +109,3 @@ docker compose exec backend uv run ruff check .
 2. Implement changes and add tests.
 3. Verify all tests pass locally.
 4. Open a Pull Request into `dev`.
->>>>>>> 8095f792ff68d8d0d3b5278ff98b5fb6549746aa
