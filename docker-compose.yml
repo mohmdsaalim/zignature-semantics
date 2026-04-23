@@ -1,0 +1,47 @@
+services:
+  db:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: zignature_db
+      POSTGRES_USER: zignature_user
+      POSTGRES_PASSWORD: zignature_pass
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U zignature_user -d zignature_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  backend:
+    build: ./backend
+    command: sh -c "uv sync --frozen && uv run python manage.py runserver 0.0.0.0:8000"
+    volumes:
+      - ./backend:/app
+      - backend_venv:/app/.venv
+      - media_files:/app/media
+    ports:
+      - "8000:8000"
+    env_file: ./backend/.env
+    environment:
+      - DB_HOST=db
+      - DJANGO_SETTINGS_MODULE=config.settings.development
+    depends_on:
+      db:
+        condition: service_healthy
+
+  nginx:
+    image: nginx:alpine
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx/nginx.dev.conf:/etc/nginx/conf.d/default.conf:ro
+      - media_files:/app/media:ro
+    depends_on:
+      - backend
+
+volumes:
+  postgres_data:
+  media_files:
+  backend_venv:
