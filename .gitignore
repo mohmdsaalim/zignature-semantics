@@ -47,3 +47,5 @@ postgres_data/
 
 # --- Ensure Documentation is Tracked ---
 handbook/
+learning.md
+test.txt

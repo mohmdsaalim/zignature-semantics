@@ -1,26 +1,45 @@
+"""
+config/settings/production.py
 
-from .base import *  # noqa
-from .base import env
+Production overrides. SameSite=None; Secure=True is enforced.
+"""
+import environ
+
+from .base import *  # noqa: F401, F403
 
 DEBUG = False
 
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
-        "NAME": env("DB_NAME"),
-        "USER": env("DB_USER"),
-        "PASSWORD": env("DB_PASSWORD"),
-        "HOST": env("DB_HOST", default="127.0.0.1"),
-        "PORT": env("DB_PORT", default="5432"),
+        "NAME": environ.Env()("DB_NAME"),
+        "USER": environ.Env()("DB_USER"),
+        "PASSWORD": environ.Env()("DB_PASSWORD"),
+        "HOST": environ.Env()("DB_HOST"),
+        "PORT": environ.Env()("DB_PORT"),
         "CONN_MAX_AGE": 60,
-        "OPTIONS": {"connect_timeout": 5},
+        "OPTIONS": {
+            "sslmode": "require",
+        },
     }
 }
 
-CSRF_TRUSTED_ORIGINS = env("CSRF_TRUSTED_ORIGINS")
+# Security headers
+SECURE_BROWSER_XSS_FILTER = True
+SECURE_CONTENT_TYPE_NOSNIFF = True
+SECURE_HSTS_SECONDS = 31536000
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+SECURE_HSTS_PRELOAD = True
+SECURE_SSL_REDIRECT = True
+CSRF_TRUSTED_ORIGINS = environ.Env()("CSRF_TRUSTED_ORIGINS")
 SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 SESSION_COOKIE_SECURE = True
 CSRF_COOKIE_SECURE = True
+X_FRAME_OPTIONS = "DENY"
+
+# In production, SameSite=None is already set in base.py.
+# Secure=True is enforced in views.py via `not settings.DEBUG`.
+# CORS_ALLOWED_ORIGINS must be set via environment variable.
 
 LOGGING = {
     "version": 1,
