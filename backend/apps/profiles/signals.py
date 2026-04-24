@@ -1,9 +1,8 @@
-from django.db.models.signals import post_save, pre_save, pre_delete
-from django.dispatch import receiver
 from django.conf import settings
-from django.core.files.storage import default_storage
-from .models import Profile
+from django.db.models.signals import post_save, pre_delete, pre_save
+from django.dispatch import receiver
 
+from .models import Profile
 
 # —- Signal 1: Auto-create Profile when a User is saved —────────────────────—
 

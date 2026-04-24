@@ -6,7 +6,7 @@ from django.urls import include, path
 urlpatterns = [
     path(settings.DJANGO_ADMIN_URL, admin.site.urls),
     path("api/v1/auth/", include("apps.accounts.urls")),
-    # path("api/v1/profile/", include("apps.profiles.urls")),   ← Ticket 1.6
+    path("api/v1/profile/", include("apps.profiles.urls")),  # ← Ticket 1.6
     # path("api/v1/careers/", include("apps.careers.urls")),    ← Ticket 2.1
 ]
 
