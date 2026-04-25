@@ -34,11 +34,12 @@ THIRD_PARTY_APPS = [
     "rest_framework",
     "corsheaders",
     "rest_framework_simplejwt.token_blacklist",
+    "drf_spectacular",
 ]
 
 LOCAL_APPS = [
-    "apps.accounts",   # ← Added Ticket 1.2
-    "apps.profiles",   # ← Ticket 1.6
+    "apps.accounts",  # ← Added Ticket 1.2
+    "apps.profiles",  # ← Ticket 1.6
     # "apps.careers",   #← Ticket 2.1
     "common",
 ]
@@ -79,7 +80,9 @@ WSGI_APPLICATION = "config.wsgi.application"
 ASGI_APPLICATION = "config.asgi.application"
 
 AUTH_PASSWORD_VALIDATORS = [
-    {"NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator"},
+    {
+        "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator"
+    },
     {"NAME": "django.contrib.auth.password_validation.MinimumLengthValidator"},
     {"NAME": "django.contrib.auth.password_validation.CommonPasswordValidator"},
     {"NAME": "django.contrib.auth.password_validation.NumericPasswordValidator"},
@@ -103,6 +106,7 @@ AUTH_USER_MODEL = "accounts.User"
 # ── Django REST Framework ────────────────────────────────────────────────────
 
 REST_FRAMEWORK = {
+    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
     "DEFAULT_AUTHENTICATION_CLASSES": [
         "rest_framework_simplejwt.authentication.JWTAuthentication",
     ],
@@ -114,6 +118,15 @@ REST_FRAMEWORK = {
     # ── Wire in the standard error envelope ─────────────────────────────────
     "EXCEPTION_HANDLER": "common.exception_handler.custom_exception_handler",
 }
+
+SPECTACULAR_SETTINGS = {
+    "TITLE": "Zignature API",
+    "DESCRIPTION": "API documentation for Zignature",
+    "VERSION": "1.0.0",
+    "SCHEMA_PATH_PREFIX_TRIM": True,
+    "COMPONENT_SPLIT_REQUEST": False,
+}
+
 
 # ── CORS ─────────────────────────────────────────────────────────────────────
 # CORS_ALLOW_CREDENTIALS = True is REQUIRED for cross-origin cookie sending.
@@ -150,10 +163,7 @@ SIMPLE_JWT = {
     "ACCESS_TOKEN_LIFETIME": timedelta(
         minutes=env("JWT_ACCESS_TOKEN_LIFETIME_MINUTES")
     ),
-    "REFRESH_TOKEN_LIFETIME": timedelta(
-        days=env("JWT_REFRESH_TOKEN_LIFETIME_DAYS")
-    ),
-
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=env("JWT_REFRESH_TOKEN_LIFETIME_DAYS")),
     # ── Rotation & blacklist ─────────────────────────────────────────────────
     # ROTATE_REFRESH_TOKENS: every /token/refresh/ issues a NEW refresh token
     # and the old one is blacklisted. This enables stolen-token detection:
@@ -162,16 +172,13 @@ SIMPLE_JWT = {
     "ROTATE_REFRESH_TOKENS": True,
     "BLACKLIST_AFTER_ROTATION": True,
     "UPDATE_LAST_LOGIN": True,
-
     # ── Algorithm ────────────────────────────────────────────────────────────
     # HS256 is fine for monoliths. Use RS256 if you have multiple services
     # that need to verify tokens independently (microservices).
     "ALGORITHM": "HS256",
-
     # ── Headers ──────────────────────────────────────────────────────────────
     "AUTH_HEADER_TYPES": ("Bearer",),
     "AUTH_HEADER_NAME": "HTTP_AUTHORIZATION",
-
     # ── Cookie settings (system.md §7.4) ────────────────────────────────────
     "AUTH_COOKIE": "refresh_token",
     "AUTH_COOKIE_PATH": "/api/v1/auth/",
