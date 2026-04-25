@@ -182,3 +182,9 @@ SIMPLE_JWT = {
 }
 
 DJANGO_ADMIN_URL = env("DJANGO_ADMIN_URL", default="admin/")
+
+# ── Google OAuth2 (Ticket 1.4) ───────────────────────────────────────────────
+# GOOGLE_CLIENT_ID is used by google.py to verify id_tokens.
+# Must match the Client ID in Google Cloud Console → OAuth 2.0 Credentials.
+# The frontend (@react-oauth/google) must use the same client ID.
+GOOGLE_CLIENT_ID = env("GOOGLE_CLIENT_ID", default="")
