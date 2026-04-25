@@ -1,7 +1,7 @@
 """
 apps/accounts/views.py
 
-All authentication endpoints for Ticket 1.3.
+All authentication endpoints for Ticket 1.3 + Ticket 1.4.
 
 Design decisions for 2026 production-grade security:
 ──────────────────────────────────────────────────────
@@ -23,6 +23,11 @@ Design decisions for 2026 production-grade security:
 
 5. All errors return the standard envelope via custom_exception_handler.
    Views never return raw strings — they raise DRF exceptions.
+
+6. [Ticket 1.4] Google OAuth uses frontend-driven token exchange.
+   The React frontend gets the id_token from Google directly, then
+   POSTs it to /auth/google/. No server-side redirect flow needed.
+   Verification is done by google-auth library with a 5s timeout.
 """
 
 from django.conf import settings
@@ -40,11 +45,14 @@ from common.exception_handler import (
     REFRESH_COOKIE_MISSING,
 )
 
+from .google import GoogleServiceUnavailable, GoogleTokenInvalid, verify_google_id_token
 from .serializers import (
+    GoogleLoginSerializer,
     PasswordChangeSerializer,
     RegisterSerializer,
     UserPublicSerializer,
 )
+from .services import get_or_create_google_user
 
 
 class UserView(APIView):
@@ -328,3 +336,86 @@ class PasswordChangeView(APIView):
             {"message": "Password changed successfully. Please log in again."},
             status=status.HTTP_200_OK,
         )
+
+
+# ── Google OAuth2 ─────────────────────────────────────────────────────────────
+
+class GoogleLoginView(APIView):
+    """
+    POST /api/v1/auth/google/
+
+    Frontend-driven Google OAuth2 token exchange (system.md §7.2).
+
+    Flow:
+      1. React frontend opens Google consent screen (@react-oauth/google)
+      2. Google returns id_token to the frontend
+      3. Frontend POSTs { "id_token": "..." } to this endpoint
+      4. We verify the id_token against Google's public keys (5s timeout)
+      5. get_or_create_google_user() finds or creates the User record
+      6. Return same access+cookie response shape as /auth/login/
+
+    This means the frontend auth handling code is identical for both
+    email/password and Google login — same response shape, same cookie.
+
+    201 → new user created  { "access": "...", "user": {...}, "created": true }
+    200 → existing user     { "access": "...", "user": {...}, "created": false }
+    401 → { "error_code": "GOOGLE_AUTH_FAILED", ... }   (invalid token)
+    503 → { "error_code": "SERVICE_UNAVAILABLE", ... }  (Google unreachable)
+    """
+
+    permission_classes = [permissions.AllowAny]
+
+    def post(self, request, *args, **kwargs):
+        serializer = GoogleLoginSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        raw_id_token = serializer.validated_data["id_token"]
+
+        # ── Step 1: Verify the token with Google ──────────────────────────────
+        try:
+            google_info = verify_google_id_token(raw_id_token)
+        except GoogleServiceUnavailable as exc:
+            # Google's servers are down / timed out — return 503
+            # Frontend should show Google button as disabled
+            raise _GoogleUnavailableException(str(exc)) from exc
+        except GoogleTokenInvalid as exc:
+            # Token is forged, expired, wrong audience, etc.
+            from rest_framework.exceptions import AuthenticationFailed
+            raise AuthenticationFailed(
+                detail=str(exc),
+                code="GOOGLE_AUTH_FAILED",
+            ) from exc
+
+        # ── Step 2: Get or create the user ────────────────────────────────────
+        user, created = get_or_create_google_user(google_info)
+
+        # ── Step 3: Issue JWT tokens ───────────────────────────────────────────
+        access, refresh = _tokens_for_user(user)
+
+        http_status = status.HTTP_201_CREATED if created else status.HTTP_200_OK
+        response = Response(
+            {
+                "access": access,
+                "user": UserPublicSerializer(user).data,
+                "created": created,
+            },
+            status=http_status,
+        )
+        _set_refresh_cookie(response, refresh, request)
+        return response
+
+
+class _GoogleUnavailableException(Exception):
+    """
+    Internal exception for Google service unavailability.
+    Caught by custom_exception_handler and mapped to 503.
+
+    We subclass plain Exception (not a DRF exception) so we can
+    attach a custom status_code that the exception handler reads.
+    """
+    status_code = 503
+    default_code = "SERVICE_UNAVAILABLE"
+
+    def __init__(self, message: str):
+        self.detail = message
+        super().__init__(message)
