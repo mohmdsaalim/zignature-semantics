@@ -1,8 +1,11 @@
+import re
+
 from rest_framework import serializers
 
 from .models import Profile
 
 MAX_FILE_SIZE = 5 * 1024 * 1024
+PHONE_REGEX = re.compile(r'^\d{10}$')
 
 
 def validate_pdf(file):
@@ -22,7 +25,23 @@ def validate_pdf(file):
     return file
 
 
+def validate_phone(value):
+    if not PHONE_REGEX.match(value):
+        raise serializers.ValidationError(
+            {"phone": "Phone number must be exactly 10 digits."}
+        )
+    return value
+
+
 class ProfileSerializer(serializers.ModelSerializer):
+    phone = serializers.CharField(
+        max_length=10,
+        min_length=10,
+        validators=[validate_phone],
+        required=False,
+        allow_blank=True,
+    )
+
     class Meta:
         model = Profile
         fields = [

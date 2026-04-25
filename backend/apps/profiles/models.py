@@ -20,8 +20,8 @@ class Profile(TimeStampedModel):
         related_name="profile",
     )
     full_name = models.CharField(max_length=100, blank=True)
-    phone = models.CharField(max_length=20, blank=True)
-    location = models.CharField(max_length=100, blank=True)
+    phone = models.CharField(max_length=12, blank=True)
+    location = models.TextField(blank=True)
     bio = models.TextField(blank=True)
     resume = models.FileField(upload_to=resume_upload_path, blank=True)
     cover_letter = models.FileField(upload_to=cover_letter_upload_path, blank=True)
