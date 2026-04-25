@@ -103,3 +103,34 @@ class PasswordChangeSerializer(serializers.Serializer):
                 {"new_password_confirm": "New passwords do not match."},
             )
         return attrs
+
+
+class GoogleLoginSerializer(serializers.Serializer):
+    """
+    Validates the incoming Google id_token from the frontend.
+
+    The frontend receives this token from @react-oauth/google after
+    the user completes the Google consent screen. It's a signed JWT
+    issued by Google — we verify it in google.py.
+
+    We don't validate the token format here (that's google-auth's job).
+    We just confirm the field is present and non-empty.
+    """
+
+    id_token = serializers.CharField(
+        required=True,
+        allow_blank=False,
+        help_text="Google ID token from @react-oauth/google credential response.",
+    )
+
+    def validate_id_token(self, value: str) -> str:
+        value = value.strip()
+        if not value:
+            raise serializers.ValidationError("id_token cannot be empty.")
+        # Basic sanity: Google JWTs are always 3-part dot-separated strings
+        if value.count(".") != 2:
+            raise serializers.ValidationError(
+                "id_token does not appear to be a valid JWT. "
+                "Expected a Google credential response token."
+            )
+        return value
