@@ -3,6 +3,7 @@ from django.urls import path
 from .views import (
     CookieTokenObtainPairView,
     CookieTokenRefreshView,
+    GoogleLoginView,
     LogoutView,
     PasswordChangeView,
     RegisterView,
@@ -16,4 +17,5 @@ urlpatterns = [
     path("token/refresh/", CookieTokenRefreshView.as_view(), name="auth-token-refresh"),
     path("password/change/", PasswordChangeView.as_view(), name="auth-password-change"),
     path("user/", UserView.as_view(), name="auth-user"),
+    path("google/", GoogleLoginView.as_view(), name="auth-google"),
 ]
