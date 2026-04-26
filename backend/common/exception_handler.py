@@ -60,7 +60,20 @@ def _get_error_code(exc: Exception) -> str:
     'token_not_valid', 'token_blacklisted', etc. — we surface those
     as our own codes so the frontend can handle them precisely.
     """
-    # simplejwt injects a 'code' attribute on its AuthenticationFailed subclasses
+    # First check exception CLASS (for DRF built-in exceptions)
+    # This handles AuthenticationFailed, ValidationError, etc.
+    # NOTE: Must check class FIRST, before default_code, because DRF exceptions
+    # have their own default_code attribute (lowercase) that would override this
+    for exc_class, code in _EXCEPTION_CODE_MAP.items():
+        if isinstance(exc, exc_class):
+            return code
+
+    # Check for custom default_code attribute (for custom exceptions only)
+    custom_code = getattr(exc, "default_code", None)
+    if custom_code:
+        return custom_code
+
+    # Then check simplejwt detail dict for token-specific codes
     detail = getattr(exc, "detail", None)
     if isinstance(detail, dict):
         code = detail.get("code") or detail.get("detail", {})
@@ -70,11 +83,6 @@ def _get_error_code(exc: Exception) -> str:
             return TOKEN_INVALID
         if code == "token_blacklisted":
             return TOKEN_BLACKLISTED
-
-    # Walk the map
-    for exc_class, code in _EXCEPTION_CODE_MAP.items():
-        if isinstance(exc, exc_class):
-            return code
 
     return SERVER_ERROR
 
@@ -107,7 +115,16 @@ def custom_exception_handler(exc: Exception, context: dict) -> Response | None:
     response = drf_default_handler(exc, context)
 
     if response is None:
-        # Unhandled server error — return 500 envelope
+        custom_status = getattr(exc, "status_code", None)
+        if custom_status:
+            return Response(
+                {
+                    "error_code": _get_error_code(exc),
+                    "message": str(exc),
+                    "details": {},
+                },
+                status=custom_status,
+            )
         return Response(
             {
                 "error_code": SERVER_ERROR,
