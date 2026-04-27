@@ -1,16 +1,26 @@
 import { useState } from 'react'
-import { Link, useLocation } from 'react-router-dom'
-import { HiEnvelope } from 'react-icons/hi2'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
+import { HiEnvelope, HiUser, HiBell, HiBriefcase } from 'react-icons/hi2'
 import { useNavbarStore } from '../../stores/navbarStore'
+import { useAuthStore } from '../../stores/authStore'
 import logo from '../../assets/Logo.jpg'
 
 function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const [isUserMenuOpen, setIsUserMenuOpen] = useState(false)
   const location = useLocation()
+  const navigate = useNavigate()
   const { navLinks } = useNavbarStore()
+  const { isAuthenticated, logout } = useAuthStore()
 
   const isActive = (path) => {
     return location.pathname === path
+  }
+
+  const handleSignOut = async () => {
+    await logout()
+    navigate('/')
+    setIsUserMenuOpen(false)
   }
 
   return (
@@ -35,20 +45,72 @@ function Navbar() {
                 <Link
                   key={link.path}
                   to={link.path}
-                  className="group relative text-[15px] font-black text-[#1409e6] uppercase tracking-[0.15em] py-2"
+                  className="group relative text-[15px] font-black text-primary-600 uppercase tracking-[0.15em] py-2 hover:text-primary-900"
                 >
                   {link.label}
-                  <span className={`absolute bottom-0 left-0 w-full h-[3px] bg-primary-900 transform origin-left transition-transform duration-300 ease-out ${isActive(link.path) ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100'
-                    }`}></span>
+                  {/* <span className={`absolute bottom-1 left-0 w-full h-[2px] bg-primary-600 transform origin-left transition-transform duration-300 ease-out ${isActive(link.path) ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100'
+                    }`}></span> */}
                 </Link>
               ))}
             </nav>
 
-            {/* Desktop CTA */}
-            <Link to="/contact" className="boxy-btn text-sm flex items-center space-x-2">
-              <HiEnvelope size={18} />
-              <span>Contact</span>
-            </Link>
+            {/* Desktop CTA - Sign In OR User Menu */}
+            {isAuthenticated ? (
+              <div className="flex items-center gap-4">
+                <Link 
+                  to="/careers"
+                  className="flex items-center gap-2 text-[15px] font-black text-primary-900 uppercase tracking-[0.15em] py-2 hover:text-primary-600 transition-colors"
+                >
+                  <HiBriefcase className="w-5 h-5" />
+                  <span>Job Search</span>
+                </Link>
+
+                <button className="p-2 text-primary-900 hover:text-primary-600 transition-colors">
+                  <HiBell className="w-7 h-7" />
+                </button>
+
+                <div className="relative">
+                  <button 
+                    onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
+                    className="p-2 transition-colors rounded-full"
+                  >
+                    <div className="w-8 h-8 bg-primary-900 text-white flex items-center justify-center hover:bg-primary-600">
+                      <HiUser className="w-5 h-5" />
+                    </div>
+                  </button>
+
+                  {isUserMenuOpen && (
+                    <div className="absolute right-0 mt-2 w-48 bg-white border-2 border-primary-900 shadow-[4px_4px_0_0_#1e3a8a]">
+                      <Link
+                        to="/profile"
+                        className="block px-4 py-3 text-sm font-bold text-primary-900 uppercase hover:bg-primary-50 border-b border-primary-900/20"
+                        onClick={() => setIsUserMenuOpen(false)}
+                      >
+                        My Profile
+                      </Link>
+                      <Link
+                        to="/careers"
+                        className="block px-4 py-3 text-sm font-bold text-primary-900 uppercase hover:bg-primary-50 border-b border-primary-900/20"
+                        onClick={() => setIsUserMenuOpen(false)}
+                      >
+                        Browse Jobs
+                      </Link>
+                      <button
+                        onClick={handleSignOut}
+                        className="block w-full text-left px-4 py-3 text-sm font-bold text-red-600 uppercase hover:bg-red-50"
+                      >
+                        Sign Out
+                      </button>
+                    </div>
+                  )}
+                </div>
+              </div>
+            ) : (
+              <Link to="/login" className="boxy-btn text-sm flex items-center space-x-2">
+                <HiEnvelope size={18} />
+                <span>Sign In</span>
+              </Link>
+            )}
 
             {/* Mobile Menu Button */}
             <button
@@ -74,10 +136,46 @@ function Navbar() {
                 to={link.path}
                 className={`block py-2 text-[15px] font-black uppercase tracking-[0.15em] transition-colors duration-200 ${isActive(link.path) ? 'text-[#1409e6]' : 'text-gray-700 hover:text-[#1409e6]'
                   }`}
+                onClick={() => setIsMenuOpen(false)}
               >
                 {link.label}
               </Link>
             ))}
+            
+            {isAuthenticated ? (
+              <>
+                <Link
+                  to="/careers"
+                  className="block py-2 text-[15px] font-black uppercase tracking-[0.15em] text-gray-700 hover:text-[#1409e6]"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  Job Search
+                </Link>
+                <Link
+                  to="/profile"
+                  className={`block py-2 text-[15px] font-black uppercase tracking-[0.15em] transition-colors duration-200 ${isActive('/profile') ? 'text-[#1409e6]' : 'text-gray-700 hover:text-[#1409e6]'
+                    }`}
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  Profile
+                </Link>
+                <button
+                  onClick={() => { handleSignOut(); setIsMenuOpen(false); }}
+                  className="block py-2 text-[15px] font-black uppercase tracking-[0.15em] text-gray-700 hover:text-[#1409e6]"
+                >
+                  Sign Out
+                </button>
+              </>
+            ) : (
+              <Link
+                to="/login"
+                className={`block py-2 text-[15px] font-black uppercase tracking-[0.15em] transition-colors duration-200 ${isActive('/login') ? 'text-[#1409e6]' : 'text-gray-700 hover:text-[#1409e6]'
+                  }`}
+                onClick={() => setIsMenuOpen(false)}
+              >
+                Sign In
+              </Link>
+            )}
           </div>
         </div>
       </header>

@@ -10,10 +10,6 @@ const ContactPage = ({ embedded = false }) => {
         
         <div className="relative z-10 flex flex-col h-full">
           <div>
-            <div className="flex items-center gap-3 mb-6">
-              <div className="w-2 h-2 bg-green-400 animate-pulse"></div>
-              <p className="font-mono text-[10px] uppercase tracking-[0.3em] font-bold opacity-80">COMMS__LINK_OPEN</p>
-            </div>
 
             <h2 className="text-4xl md:text-5xl lg:text-7xl font-black uppercase tracking-tighter leading-[0.85] mb-6">
               Deploy <br className="hidden md:block" /> The <br className="hidden md:block" /> System.

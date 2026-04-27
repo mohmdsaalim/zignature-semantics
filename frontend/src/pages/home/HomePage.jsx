@@ -31,7 +31,7 @@ function HomePage() {
           <div className="relative mt-12 lg:mt-0 hidden lg:block">
             {/* Abstract Boxy Graphic */}
             <div className="w-full aspect-square relative z-10 boxy-card bg-primary-200 border-4 border-primary-900 flex items-center justify-center">
-              <div className="text-primary-900 font-black text-6xl tracking-widest uppercase rotate-[-90deg] absolute left-[-60px] opacity-20">Structure</div>
+              <div className="text-primary-900 font-black text-6xl tracking-widest uppercase rotate-[-90deg] absolute left-[-60px] opacity-20">Zignature</div>
               <div className="grid grid-cols-2 gap-4 w-3/4 h-3/4">
                 <div className="bg-primary-600 border-2 border-primary-900 shadow-[4px_4px_0_0_#1e3a8a]"></div>
                 <div className="bg-white border-2 border-primary-900 shadow-[4px_4px_0_0_#1e3a8a] row-span-2"></div>

@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
 import { useFooterStore } from '../../stores/footerStore'
-import logo from '../../assets/Logo.jpg'
+import logo from '../../assets/Logo.PNG'
 
 function Footer() {
   const currentYear = new Date().getFullYear()
@@ -13,25 +13,25 @@ function Footer() {
           
           {/* Logo & Manifesto */}
           <div className="md:col-span-2">
-            <img src={logo} alt="ZEG Logo" className="h-10 mb-8 mix-blend-darken" />
+            <img src={logo} alt="ZEG Logo" className="h-13 mb-8 mix-blend-darken" />
             <p className="text-xl font-bold text-primary-900 uppercase tracking-tighter leading-tight max-w-sm mb-6">
               Engineering monolithic structural experiences for the digital frontier.
             </p>
             <div className="flex space-x-2">
               <div className="w-8 h-2 bg-primary-900"></div>
-              <div className="w-4 h-2 bg-primary-600"></div>
+              <div className="w-8 h-2 bg-primary-600"></div>
             </div>
           </div>
 
           {/* Navigation */}
           <div>
-            <h4 className="font-black uppercase tracking-[0.2em] text-xs text-primary-900/40 mb-6">/ Navigation</h4>
+            <h4 className="font-black font-mono uppercase tracking-[0.2em] text-xs text-primary-900/40 mb-6">Navigation</h4>
             <ul className="space-y-3">
               {footerLinks.map((link) => (
                 <li key={link.path}>
                   <Link
                     to={link.path}
-                    className="text-base font-black text-primary-900 uppercase tracking-widest hover:text-primary-600 transition-colors"
+                    className="font-bold text-primary-900 uppercase tracking-tight hover:text-primary-600 transition-colors"
                   >
                     {link.label}
                   </Link>
@@ -42,7 +42,7 @@ function Footer() {
 
           {/* Contact */}
           <div>
-            <h4 className="font-black uppercase tracking-[0.2em] text-xs text-primary-900/40 mb-6">/ Terminal</h4>
+            <h4 className="font-black font-mono uppercase tracking-[0.2em] text-xs text-primary-900/40 mb-6">Contact</h4>
             <div className="space-y-4 font-bold text-primary-900 tracking-tight">
               <p>{companyInfo.email}</p>
               <p>+1 (800) 555-0199</p>
