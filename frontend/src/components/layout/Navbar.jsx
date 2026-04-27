@@ -1,9 +1,9 @@
 import { useState } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
-import { HiEnvelope, HiUser, HiBell, HiBriefcase } from 'react-icons/hi2'
+import { HiEnvelope, HiUser, HiBell, HiBriefcase, HiUserCircle, HiOutlineUserCircle, HiOutlineBell, HiOutlineBriefcase } from 'react-icons/hi2'
 import { useNavbarStore } from '../../stores/navbarStore'
 import { useAuthStore } from '../../stores/authStore'
-import logo from '../../assets/Logo.jpg'
+import logo from '../../assets/Logo.PNG'
 
 function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
@@ -59,14 +59,14 @@ function Navbar() {
               <div className="flex items-center gap-4">
                 <Link 
                   to="/careers"
-                  className="flex items-center gap-2 text-[15px] font-black text-primary-900 uppercase tracking-[0.15em] py-2 hover:text-primary-600 transition-colors"
+                  className="flex items-center gap-2 text-[15px] font-black text-primary-900 uppercase tracking-[0.15em] py-2 hover:text-primary-600 hover:bg-primary-50 border-2 rounded-full p-4 border-primary-900 hover:border-primary-600 transition-colors"
                 >
-                  <HiBriefcase className="w-5 h-5" />
+                  <HiOutlineBriefcase className="w-7 h-7" />
                   <span>Job Search</span>
                 </Link>
 
                 <button className="p-2 text-primary-900 hover:text-primary-600 transition-colors">
-                  <HiBell className="w-7 h-7" />
+                  <HiOutlineBell className="w-7 h-7" />
                 </button>
 
                 <div className="relative">
@@ -74,8 +74,8 @@ function Navbar() {
                     onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
                     className="p-2 transition-colors rounded-full"
                   >
-                    <div className="w-8 h-8 bg-primary-900 text-white flex items-center justify-center hover:bg-primary-600">
-                      <HiUser className="w-5 h-5" />
+                    <div className="w-8 h-8 text-primary-900 flex items-center justify-center hover:text-primary-600">
+                      <HiOutlineUserCircle className="w-7 h-7" />
                     </div>
                   </button>
 
@@ -107,7 +107,7 @@ function Navbar() {
               </div>
             ) : (
               <Link to="/login" className="boxy-btn text-sm flex items-center space-x-2">
-                <HiEnvelope size={18} />
+                <HiUserCircle size={18} />
                 <span>Sign In</span>
               </Link>
             )}

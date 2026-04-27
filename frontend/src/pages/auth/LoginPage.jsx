@@ -54,7 +54,7 @@ const LoginPage = () => {
 
   return (
     <GoogleOAuthProvider clientId={GOOGLE_CLIENT_ID}>
-      <div className="min-h-[calc(100vh-100px)] bg-primary-50 flex items-center justify-center px-4 py-12">
+      <div className="min-h-[calc(140vh-130px)] bg-primary-50 flex items-center justify-center px-8 py-12">
         <div className="w-full max-w-md">
           <div className="text-center mb-8">
             <Link to="/" className="inline-block">

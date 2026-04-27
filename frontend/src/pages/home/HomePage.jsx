@@ -1,3 +1,4 @@
+import HeroSection from '../../components/home/HeroSection'
 import LogoLoop from '../../components/home/LogoLoop'
 import { Link } from 'react-router-dom'
 
@@ -5,18 +6,18 @@ function HomePage() {
   return (
     <div className="bg-primary-50">
       {/* Hero Section */}
-      <div className="min-h-[85vh] flex flex-col items-center justify-center pt-16 pb-8 px-4 sm:px-6 lg:px-8">
+      <div className="min-h-[85vh] flex flex-col items-center justify-center pt-20 pb-24 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
 
           <div className="space-y-12">
             <div>
               <h1 className="text-8xl md:text-[9rem] leading-none font-black text-primary-900 tracking-tighter uppercase mb-6">
                     Hire<br />
-                <span className="text-white text-stroke bg-primary-600 px-4 inline-block transform -skew-x-6 border-4 border-primary-900 shadow-[8px_8px_0_0_#1e3a8a]">Better</span>
+                <span className="text-white text-stroke italic bg-primary-600 px-8 pb-4 inline-block transform -skew-x-6 border-4 border-primary-900 shadow-[8px_8px_0_0_#1e3a8a]">Better</span>
                 <style>{`.text-stroke { -webkit-text-stroke: 2px #1e3a8a; }`}</style>
               </h1>
-              <p className="max-w-xl text-2xl font-medium text-primary-800 leading-snug border-l-4 border-primary-600 pl-6 mt-8">
-                We Don't Just Plan Growth — We Execute It.
+              <p className="max-w-xl text-2xl font-medium text-primary-800 border-primary-600 mt-8">
+                "We Don't Just Plan Growth We Execute It."
               </p>
             </div>
 
