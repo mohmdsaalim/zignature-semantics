@@ -195,3 +195,8 @@ DJANGO_ADMIN_URL = env("DJANGO_ADMIN_URL", default="admin/")
 # Must match the Client ID in Google Cloud Console → OAuth 2.0 Credentials.
 # The frontend (@react-oauth/google) must use the same client ID.
 GOOGLE_CLIENT_ID = env("GOOGLE_CLIENT_ID", default="")
+
+# Admin URL — never use the default `admin/` in production.
+# Set this in your .env file.
+# Example: DJANGO_ADMIN_URL=secure-admin/
+DJANGO_ADMIN_URL = env("DJANGO_ADMIN_URL", default="admin/")
