@@ -1,47 +1,35 @@
-import { useEffect, useCallback } from 'react';
+import { useCallback } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useAuthStore } from '../stores/authStore';
 
 export const useAuth = () => {
   const navigate = useNavigate();
   const location = useLocation();
+
   const {
     user,
     isAuthenticated,
+    isInitialized,
     loading,
     error,
     login,
     register,
     logout,
     googleLogin,
-    fetchUser,
     clearError,
   } = useAuthStore();
 
-  useEffect(() => {
-    const initAuth = async () => {
-      const token = useAuthStore.getState().accessToken;
-      if (token && !user) {
-        try {
-          await fetchUser();
-        } catch (err) {
-          console.error('Failed to fetch user:', err);
-        }
-      }
-    };
-    initAuth();
-  }, []);
-
   const handleLogin = useCallback(
-    async (email, password, redirectTo = '/') => {
+    async (email, password, redirectTo = '/profile') => {
       await login(email, password);
-      navigate(redirectTo, { replace: true });
+      const from = location.state?.from || redirectTo;
+      navigate(from, { replace: true });
     },
-    [login, navigate]
+    [login, navigate, location]
   );
 
   const handleRegister = useCallback(
-    async (email, username, password, passwordConfirm, redirectTo = '/') => {
+    async (email, username, password, passwordConfirm, redirectTo = '/profile') => {
       await register(email, username, password, passwordConfirm);
       navigate(redirectTo, { replace: true });
     },
@@ -49,11 +37,12 @@ export const useAuth = () => {
   );
 
   const handleGoogleLogin = useCallback(
-    async (idToken, redirectTo = '/') => {
+    async (idToken, redirectTo = '/profile') => {
       await googleLogin(idToken);
-      navigate(redirectTo, { replace: true });
+      const from = location.state?.from || redirectTo;
+      navigate(from, { replace: true });
     },
-    [googleLogin, navigate]
+    [googleLogin, navigate, location]
   );
 
   const handleLogout = useCallback(
@@ -66,36 +55,38 @@ export const useAuth = () => {
 
   const requireAuth = useCallback(
     (redirectTo = '/login') => {
-      if (!isAuthenticated && !loading) {
+      if (!isInitialized) return true;
+      if (!isAuthenticated) {
         navigate(redirectTo, { state: { from: location.pathname }, replace: true });
         return false;
       }
       return true;
     },
-    [isAuthenticated, loading, navigate, location]
+    [isAuthenticated, isInitialized, navigate, location]
   );
 
   const requireGuest = useCallback(
-    (redirectTo = '/') => {
+    (redirectTo = '/profile') => {
+      if (!isInitialized) return true;
       if (isAuthenticated) {
         navigate(redirectTo, { replace: true });
         return false;
       }
       return true;
     },
-    [isAuthenticated, navigate]
+    [isAuthenticated, isInitialized, navigate]
   );
 
   return {
     user,
     isAuthenticated,
+    isInitialized,
     loading,
     error,
     login: handleLogin,
     register: handleRegister,
     logout: handleLogout,
     googleLogin: handleGoogleLogin,
-    fetchUser,
     clearError,
     requireAuth,
     requireGuest,

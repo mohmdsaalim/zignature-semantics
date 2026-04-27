@@ -1,4 +1,12 @@
 import apiClient from './client';
+import axios from 'axios';
+
+const BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000/api/v1';
+
+const bareClient = axios.create({
+  baseURL: BASE_URL,
+  withCredentials: true,
+});
 
 export const authApi = {
   register: async (email, username, password, passwordConfirm) => {
@@ -26,6 +34,11 @@ export const authApi = {
 
   getUser: async () => {
     const response = await apiClient.get('/auth/user/');
+    return response.data;
+  },
+
+  refreshToken: async () => {
+    const response = await bareClient.post('/auth/token/refresh/');
     return response.data;
   },
 

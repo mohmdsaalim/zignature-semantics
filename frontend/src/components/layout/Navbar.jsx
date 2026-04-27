@@ -86,7 +86,7 @@ function Navbar() {
                       onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
                       className="w-11 h-11 border-2 border-primary-900 bg-primary-600 flex items-center justify-center text-white shadow-[4px_4px_0_0_#1e3a8a] hover:shadow-none hover:translate-x-[4px] hover:translate-y-[4px] transition-all focus:outline-none"
                     >
-                      <span className="font-black text-lg">Z</span>
+                      <HiOutlineUserCircle className="w-7 h-7" />
                     </button>
 
                     {isUserMenuOpen && (

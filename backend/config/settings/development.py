@@ -1,7 +1,7 @@
 import environ
 
 from .base import *  # noqa: F403, F405
-from .base import BASE_DIR  # Explicit import for Ruff
+from .base import BASE_DIR, SIMPLE_JWT  # Explicit import for Ruff
 
 DEBUG = True
 ALLOWED_HOSTS = ["localhost", "127.0.0.1", "0.0.0.0"]
@@ -28,3 +28,8 @@ CORS_ALLOWED_ORIGINS = [
 
 SESSION_COOKIE_SECURE = False
 CSRF_COOKIE_SECURE = False
+
+SIMPLE_JWT = {
+    **SIMPLE_JWT,
+    "AUTH_COOKIE_SAMESITE": "Lax",
+}

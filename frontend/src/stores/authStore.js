@@ -1,35 +1,62 @@
 import { create } from 'zustand';
 import { authApi } from '../api/auth';
 
-export const useAuthStore = create((set, get) => ({
+const useAuthStore = create((set, get) => ({
   user: null,
   accessToken: null,
   isAuthenticated: false,
+  isInitialized: false,
   loading: false,
   error: null,
+  isLoggingOut: false,
+
+  _setAuth: (user, accessToken) =>
+    set({
+      user,
+      accessToken,
+      isAuthenticated: true,
+      loading: false,
+      error: null,
+    }),
+
+  _clearAuth: () =>
+    set({
+      user: null,
+      accessToken: null,
+      isAuthenticated: false,
+      loading: false,
+      isLoggingOut: false,
+    }),
 
   setAccessToken: (token) => set({ accessToken: token }),
-  
-  setUser: (user) => set({ user, isAuthenticated: !!user }),
 
-  setLoading: (loading) => set({ loading }),
-  
-  setError: (error) => set({ error }),
+  clearError: () => set({ error: null }),
+
+  initAuth: async () => {
+    if (get().isInitialized) return;
+
+    try {
+      const { access } = await authApi.refreshToken();
+      set({ accessToken: access });
+
+      const user = await authApi.getUser();
+      get()._setAuth(user, access);
+    } catch {
+      get()._clearAuth();
+    } finally {
+      set({ isInitialized: true });
+    }
+  },
 
   login: async (email, password) => {
     set({ loading: true, error: null });
     try {
       const data = await authApi.login(email, password);
-      set({
-        accessToken: data.access,
-        user: data.user,
-        isAuthenticated: true,
-        loading: false,
-      });
+      get()._setAuth(data.user, data.access);
       return data;
     } catch (error) {
-      const message = error.response?.data?.detail || 'Login failed';
-      set({ error: message, loading: false });
+      const message = error.response?.data?.detail || 'Invalid email or password.';
+      set({ loading: false, error: message });
       throw error;
     }
   },
@@ -38,16 +65,11 @@ export const useAuthStore = create((set, get) => ({
     set({ loading: true, error: null });
     try {
       const data = await authApi.register(email, username, password, passwordConfirm);
-      set({
-        accessToken: data.access,
-        user: data.user,
-        isAuthenticated: true,
-        loading: false,
-      });
+      get()._setAuth(data.user, data.access);
       return data;
     } catch (error) {
-      const message = error.response?.data?.detail || 'Registration failed';
-      set({ error: message, loading: false });
+      const message = error.response?.data?.detail || 'Registration failed.';
+      set({ loading: false, error: message });
       throw error;
     }
   },
@@ -56,50 +78,31 @@ export const useAuthStore = create((set, get) => ({
     set({ loading: true, error: null });
     try {
       const data = await authApi.googleLogin(idToken);
-      set({
-        accessToken: data.access,
-        user: data.user,
-        isAuthenticated: true,
-        loading: false,
-      });
+      get()._setAuth(data.user, data.access);
       return data;
     } catch (error) {
-      const message = error.response?.data?.detail || 'Google login failed';
-      set({ error: message, loading: false });
+      const message = error.response?.data?.detail || 'Google sign-in failed.';
+      set({ loading: false, error: message });
       throw error;
     }
   },
 
   logout: async () => {
+    set({ isLoggingOut: true });
     try {
       await authApi.logout();
-    } catch (error) {
-      // If 401, cookie is already invalid/expired - that's fine, just clear local state
-      if (error.response?.status !== 401) {
-        console.error('Logout error:', error);
-      }
+    } catch {
     } finally {
-      set({
-        user: null,
-        accessToken: null,
-        isAuthenticated: false,
-        loading: false,
-        error: null,
-      });
+      get()._clearAuth();
     }
   },
 
-  fetchUser: async () => {
-    set({ loading: true });
-    try {
-      const data = await authApi.getUser();
-      set({ user: data, isAuthenticated: true, loading: false });
-      return data;
-    } catch (error) {
-      set({ user: null, isAuthenticated: false, loading: false });
-      throw error;
-    }
+  refreshToken: async () => {
+    const { access } = await authApi.refreshToken();
+    set({ accessToken: access });
+    return access;
   },
-
-  clearError: () => set({ error: null }),
 }));
+
+export { useAuthStore };
+export default useAuthStore;

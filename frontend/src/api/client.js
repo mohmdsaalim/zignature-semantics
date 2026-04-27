@@ -6,23 +6,25 @@ const BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000/api/v1';
 const apiClient = axios.create({
   baseURL: BASE_URL,
   withCredentials: true,
-  headers: {
-    'Content-Type': 'application/json',
-  },
+  headers: { 'Content-Type': 'application/json' },
+});
+
+const refreshClient = axios.create({
+  baseURL: BASE_URL,
+  withCredentials: true,
 });
 
 let isRefreshing = false;
-let failedQueue = [];
+let pendingQueue = [];
 
-const processQueue = (error, token = null) => {
-  failedQueue.forEach((prom) => {
-    if (error) {
-      prom.reject(error);
-    } else {
-      prom.resolve(token);
-    }
-  });
-  failedQueue = [];
+const resolveQueue = (token) => {
+  pendingQueue.forEach(({ resolve }) => resolve(token));
+  pendingQueue = [];
+};
+
+const rejectQueue = (error) => {
+  pendingQueue.forEach(({ reject }) => reject(error));
+  pendingQueue = [];
 };
 
 apiClient.interceptors.request.use(
@@ -40,49 +42,49 @@ apiClient.interceptors.response.use(
   (response) => response,
   async (error) => {
     const originalRequest = error.config;
+    const status = error.response?.status;
 
-    if (error.response?.status === 401 && !originalRequest._retry) {
-      // Skip refresh for logout endpoint - it only needs the cookie
-      if (originalRequest.url.includes('/auth/logout/')) {
-        return Promise.reject(error);
-      }
-      if (isRefreshing) {
-        return new Promise((resolve, reject) => {
-          failedQueue.push({ resolve, reject });
-        })
-          .then((token) => {
-            originalRequest.headers.Authorization = `Bearer ${token}`;
-            return apiClient(originalRequest);
-          })
-          .catch((err) => Promise.reject(err));
-      }
-
-      originalRequest._retry = true;
-      isRefreshing = true;
-
-      try {
-        const response = await axios.post(
-          `${BASE_URL}/auth/token/refresh/`,
-          {},
-          { withCredentials: true }
-        );
-
-        const { access } = response.data;
-        useAuthStore.getState().setAccessToken(access);
-        processQueue(null, access);
-
-        originalRequest.headers.Authorization = `Bearer ${access}`;
-        return apiClient(originalRequest);
-      } catch (refreshError) {
-        processQueue(refreshError, null);
-        useAuthStore.getState().logout();
-        return Promise.reject(refreshError);
-      } finally {
-        isRefreshing = false;
-      }
+    if (status !== 401) {
+      return Promise.reject(error);
     }
 
-    return Promise.reject(error);
+    if (useAuthStore.getState().isLoggingOut) {
+      return Promise.reject(error);
+    }
+
+    if (originalRequest._retry) {
+      useAuthStore.getState()._clearAuth();
+      return Promise.reject(error);
+    }
+
+    if (isRefreshing) {
+      return new Promise((resolve, reject) => {
+        pendingQueue.push({ resolve, reject });
+      }).then((newToken) => {
+        originalRequest.headers.Authorization = `Bearer ${newToken}`;
+        return apiClient(originalRequest);
+      });
+    }
+
+    originalRequest._retry = true;
+    isRefreshing = true;
+
+    try {
+      const { data } = await refreshClient.post('/auth/token/refresh/');
+      const newToken = data.access;
+
+      useAuthStore.getState().setAccessToken(newToken);
+      resolveQueue(newToken);
+
+      originalRequest.headers.Authorization = `Bearer ${newToken}`;
+      return apiClient(originalRequest);
+    } catch (refreshError) {
+      rejectQueue(refreshError);
+      useAuthStore.getState()._clearAuth();
+      return Promise.reject(refreshError);
+    } finally {
+      isRefreshing = false;
+    }
   }
 );
 
