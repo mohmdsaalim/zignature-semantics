@@ -6,47 +6,7 @@ function HomePage() {
   return (
     <div className="bg-primary-50">
       {/* Hero Section */}
-      <div className="min-h-[85vh] flex flex-col items-center justify-center pt-20 pb-24 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-
-          <div className="space-y-12">
-            <div>
-              <h1 className="text-8xl md:text-[9rem] leading-none font-black text-primary-900 tracking-tighter uppercase mb-6">
-                    Hire<br />
-                <span className="text-white text-stroke italic bg-primary-600 px-8 pb-4 inline-block transform -skew-x-6 border-4 border-primary-900 shadow-[8px_8px_0_0_#1e3a8a]">Better</span>
-                <style>{`.text-stroke { -webkit-text-stroke: 2px #1e3a8a; }`}</style>
-              </h1>
-              <p className="max-w-xl text-2xl font-medium text-primary-800 border-primary-600 mt-8">
-                "We Don't Just Plan Growth We Execute It."
-              </p>
-            </div>
-
-            <div className="flex flex-col sm:flex-row gap-6">
-              <button className="boxy-btn text-xl px-12 py-5">Hiring</button>
-              <button className="bg-white text-primary-900 font-bold py-5 px-12 uppercase tracking-wider border-2 border-primary-900 shadow-[4px_4px_0_0_#1e3a8a] hover:bg-primary-100 hover:shadow-none hover:translate-x-[4px] hover:translate-y-[4px] transition-all text-xl">
-                View Work
-              </button>
-            </div>
-          </div>
-
-          <div className="relative mt-12 lg:mt-0 hidden lg:block">
-            {/* Abstract Boxy Graphic */}
-            <div className="w-full aspect-square relative z-10 boxy-card bg-primary-200 border-4 border-primary-900 flex items-center justify-center">
-              <div className="text-primary-900 font-black text-6xl tracking-widest uppercase rotate-[-90deg] absolute left-[-60px] opacity-20">Zignature</div>
-              <div className="grid grid-cols-2 gap-4 w-3/4 h-3/4">
-                <div className="bg-primary-600 border-2 border-primary-900 shadow-[4px_4px_0_0_#1e3a8a]"></div>
-                <div className="bg-white border-2 border-primary-900 shadow-[4px_4px_0_0_#1e3a8a] row-span-2"></div>
-                <div className="bg-primary-900 border-2 border-primary-900"></div>
-              </div>
-            </div>
-            {/* Background offset decorative boxes */}
-            <div className="absolute top-12 -right-12 w-full h-full border-4 border-primary-400 z-0"></div>
-            <div className="absolute -bottom-8 -left-8 w-64 h-64 bg-primary-100 border-4 border-primary-900 z-0 bg-[radial-gradient(#1e3a8a_2px,transparent_2px)] [background-size:16px_16px]"></div>
-          </div>
-
-        </div>
-      </div>
-
+      <HeroSection/>
 <LogoLoop />
 
       {/* About Us Section */}
