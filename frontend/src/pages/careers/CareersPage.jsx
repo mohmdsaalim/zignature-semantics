@@ -1,134 +1,6 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
-
-const jobs = [
-  {
-    id: 1,
-    title: 'Senior Frontend Developer',
-    department: 'Engineering',
-    location: 'Remote',
-    type: 'Full-time',
-    experience: '4-6 years',
-    description: 'We are looking for an experienced Frontend Developer to build cutting-edge web applications. You will work with React, TypeScript, and modern tooling to create exceptional user experiences.',
-    requirements: [
-      '4+ years of experience with React and modern JavaScript',
-      'Strong understanding of web performance optimization',
-      'Experience with TypeScript and state management',
-      'Excellent communication and collaboration skills'
-    ],
-    responsibilities: [
-      'Build and maintain responsive web applications',
-      'Collaborate with design and backend teams',
-      'Mentor junior developers',
-      'Participate in code reviews and technical planning'
-    ]
-  },
-  {
-    id: 2,
-    title: 'UI/UX Designer',
-    department: 'Design',
-    location: 'Mumbai, India',
-    type: 'Full-time',
-    experience: '3-5 years',
-    description: 'Join our design team to create beautiful, functional interfaces. You will be responsible for designing user-centered digital experiences across all platforms.',
-    requirements: [
-      '3+ years of UI/UX design experience',
-      'Proficiency in Figma and Adobe Creative Suite',
-      'Strong portfolio demonstrating design skills',
-      'Understanding of design systems and accessibility'
-    ],
-    responsibilities: [
-      'Create wireframes, prototypes, and high-fidelity designs',
-      'Conduct user research and usability testing',
-      'Collaborate with developers for implementation',
-      'Maintain and evolve design systems'
-    ]
-  },
-  {
-    id: 3,
-    title: 'Digital Marketing Manager',
-    department: 'Marketing',
-    location: 'Remote',
-    type: 'Full-time',
-    experience: '3-5 years',
-    description: 'We need a results-driven Digital Marketing Manager to lead our marketing initiatives and drive growth through data-driven campaigns.',
-    requirements: [
-      '3+ years in digital marketing roles',
-      'Experience with SEO, SEM, and social media marketing',
-      'Strong analytical skills and data-driven mindset',
-      'Proven track record of successful campaigns'
-    ],
-    responsibilities: [
-      'Plan and execute digital marketing campaigns',
-      'Analyze campaign performance and optimize strategies',
-      'Manage social media presence and content',
-      'Coordinate with creative teams for marketing materials'
-    ]
-  },
-  {
-    id: 4,
-    title: 'Backend Developer',
-    department: 'Engineering',
-    location: 'Remote',
-    type: 'Full-time',
-    experience: '3-5 years',
-    description: 'Looking for a Backend Developer to build scalable server-side applications and APIs. You will work with modern technologies to ensure high performance.',
-    requirements: [
-      '3+ years of backend development experience',
-      'Proficiency in Node.js, Python, or Go',
-      'Experience with databases and API design',
-      'Knowledge of cloud services and DevOps'
-    ],
-    responsibilities: [
-      'Develop and maintain backend services',
-      'Design and implement APIs',
-      'Optimize database queries and performance',
-      'Ensure code quality and best practices'
-    ]
-  },
-  {
-    id: 5,
-    title: 'Project Manager',
-    department: 'Operations',
-    location: 'Mumbai, India',
-    type: 'Full-time',
-    experience: '4-7 years',
-    description: 'Join us as a Project Manager to lead cross-functional teams and deliver projects on time and within budget.',
-    requirements: [
-      '4+ years of project management experience',
-      'PMP or similar certification preferred',
-      'Strong organizational and communication skills',
-      'Experience with Agile methodologies'
-    ],
-    responsibilities: [
-      'Manage project timelines and deliverables',
-      'Coordinate with stakeholders and teams',
-      'Identify and mitigate project risks',
-      'Report project status and metrics'
-    ]
-  },
-  {
-    id: 6,
-    title: 'Content Writer',
-    department: 'Content',
-    location: 'Remote',
-    type: 'Part-time',
-    experience: '1-3 years',
-    description: 'We are seeking a creative Content Writer to produce engaging content for our clients across various platforms.',
-    requirements: [
-      '1+ years of content writing experience',
-      'Excellent written communication skills',
-      'Ability to write in different tones and styles',
-      'Basic understanding of SEO'
-    ],
-    responsibilities: [
-      'Create blog posts, articles, and website content',
-      'Develop copy for marketing campaigns',
-      'Edit and proofread content',
-      'Research industry topics'
-    ]
-  }
-]
+import { careersApi } from '../../api/careers'
 
 const benefits = [
   { icon: 'M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z', title: 'Health Insurance', desc: 'Comprehensive medical coverage for you and family' },
@@ -139,8 +11,36 @@ const benefits = [
   { icon: 'M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z', title: 'Competitive Salary', desc: 'Industry-leading compensation packages' }
 ]
 
+const JOB_TYPE_MAP = {
+  'All': null,
+  'Full Time': 'full_time',
+  'Part Time': 'part_time',
+  'Contract': 'contract',
+  'Remote': 'remote',
+}
+
 const JobModal = ({ job, isOpen, onClose }) => {
+  const [detail, setDetail] = useState(null)
+  const [loading, setLoading] = useState(false)
+
+  useEffect(() => {
+    if (isOpen && job?.slug) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setLoading(true)
+      careersApi.getJobBySlug(job.slug)
+        .then(data => setDetail(data))
+        .catch(err => console.error('Error fetching job detail:', err))
+        // eslint-disable-next-line react-hooks/set-state-in-effect
+        .finally(() => setLoading(false))
+    } else {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setDetail(null)
+    }
+  }, [isOpen, job?.slug])
+
   if (!isOpen || !job) return null
+
+  const displayJob = detail || job
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
@@ -148,8 +48,8 @@ const JobModal = ({ job, isOpen, onClose }) => {
       <div className="relative bg-white border-4 border-primary-900 w-full max-w-3xl max-h-[90vh] overflow-y-auto shadow-[16px_16px_0_0_#1e3a8a]">
         <div className="sticky top-0 bg-white border-b-4 border-primary-900 p-6 flex items-center justify-between">
           <div>
-            <span className="text-sm font-bold text-primary-600 uppercase tracking-wider">{job.department}</span>
-            <h3 className="text-2xl md:text-3xl font-black text-primary-900 uppercase">{job.title}</h3>
+            <span className="text-sm font-bold text-primary-600 uppercase tracking-wider">{displayJob.company?.name || 'Company'}</span>
+            <h3 className="text-2xl md:text-3xl font-black text-primary-900 uppercase">{displayJob.title}</h3>
           </div>
           <button onClick={onClose} className="w-10 h-10 bg-primary-900 border-2 border-primary-900 flex items-center justify-center hover:bg-primary-700 transition-colors">
             <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -159,39 +59,28 @@ const JobModal = ({ job, isOpen, onClose }) => {
         </div>
         <div className="p-6 md:p-8">
           <div className="flex flex-wrap gap-3 mb-6">
-            <span className="bg-primary-50 border-2 border-primary-900 px-4 py-1 text-sm font-bold text-primary-900">{job.location}</span>
-            <span className="bg-primary-50 border-2 border-primary-900 px-4 py-1 text-sm font-bold text-primary-900">{job.type}</span>
-            <span className="bg-primary-50 border-2 border-primary-900 px-4 py-1 text-sm font-bold text-primary-900">{job.experience}</span>
-          </div>
-          
-          <div className="mb-8">
-            <h4 className="text-lg font-black text-primary-900 uppercase mb-3 border-b-2 border-primary-900 pb-2">Description</h4>
-            <p className="text-primary-700 leading-relaxed">{job.description}</p>
+            <span className="bg-primary-50 border-2 border-primary-900 px-4 py-1 text-sm font-bold text-primary-900">{displayJob.location}</span>
+            <span className="bg-primary-50 border-2 border-primary-900 px-4 py-1 text-sm font-bold text-primary-900">{displayJob.job_type_display}</span>
+            <span className="bg-primary-50 border-2 border-primary-900 px-4 py-1 text-sm font-bold text-primary-900">{displayJob.experience_level_display}</span>
           </div>
 
-          <div className="mb-8">
-            <h4 className="text-lg font-black text-primary-900 uppercase mb-3 border-b-2 border-primary-900 pb-2">Requirements</h4>
-            <ul className="space-y-2">
-              {job.requirements.map((req, idx) => (
-                <li key={idx} className="flex items-start">
-                  <span className="w-2 h-2 bg-primary-600 mt-2 mr-3 shrink-0"></span>
-                  <span className="text-primary-700">{req}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
+          {loading ? (
+            <p className="text-center py-8 text-primary-700">Loading job details...</p>
+          ) : (
+            <>
+              <div className="mb-8">
+                <h4 className="text-lg font-black text-primary-900 uppercase mb-3 border-b-2 border-primary-900 pb-2">Description</h4>
+                <div className="text-primary-700 leading-relaxed" dangerouslySetInnerHTML={{ __html: displayJob.description || 'No description available.' }} />
+              </div>
 
-          <div className="mb-8">
-            <h4 className="text-lg font-black text-primary-900 uppercase mb-3 border-b-2 border-primary-900 pb-2">Responsibilities</h4>
-            <ul className="space-y-2">
-              {job.responsibilities.map((resp, idx) => (
-                <li key={idx} className="flex items-start">
-                  <span className="w-2 h-2 bg-primary-600 mt-2 mr-3 shrink-0"></span>
-                  <span className="text-primary-700">{resp}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
+              {displayJob.requirements && (
+                <div className="mb-8">
+                  <h4 className="text-lg font-black text-primary-900 uppercase mb-3 border-b-2 border-primary-900 pb-2">Requirements</h4>
+                  <div className="text-primary-700 leading-relaxed" dangerouslySetInnerHTML={{ __html: displayJob.requirements }} />
+                </div>
+              )}
+            </>
+          )}
 
           <div className="flex flex-col sm:flex-row gap-4 pt-4">
             <Link to="/contact" className="flex-1">
@@ -208,18 +97,43 @@ const JobModal = ({ job, isOpen, onClose }) => {
 }
 
 function CareersPage() {
+  const [jobs, setJobs] = useState([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState(null)
+  const [totalCount, setTotalCount] = useState(0)
   const [selectedJob, setSelectedJob] = useState(null)
   const [filter, setFilter] = useState('All')
 
-  const departments = ['All', 'Engineering', 'Design', 'Marketing', 'Operations', 'Content']
-  const filteredJobs = filter === 'All' ? jobs : jobs.filter(job => job.department === filter)
+  const jobTypes = ['All', 'Full Time', 'Part Time', 'Contract', 'Remote']
+
+  useEffect(() => {
+    const fetchJobs = async () => {
+      setLoading(true)
+      setError(null)
+      try {
+        const params = {}
+        const jobTypeParam = JOB_TYPE_MAP[filter]
+        if (jobTypeParam) {
+          params.job_type = jobTypeParam
+        }
+        const data = await careersApi.getJobs(params)
+        setJobs(data.results || [])
+        setTotalCount(data.count || 0)
+      } catch (err) {
+        setError('Failed to load job listings. Please try again later.')
+        console.error('Error fetching jobs:', err)
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchJobs()
+  }, [filter])
 
   return (
     <div className="w-full bg-primary-50 relative z-10 overflow-hidden">
-      {/* Background Pattern */}
       <div className="absolute inset-0 bg-[radial-gradient(#1e3a8a_1px,transparent_1px)] [background-size:20px_20px] opacity-30"></div>
 
-      {/* Hero Section */}
       <div className="relative pt-20 pb-16 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mb-20">
@@ -248,7 +162,7 @@ function CareersPage() {
                     <div className="text-sm font-bold text-primary-300 uppercase">Team Members</div>
                   </div>
                   <div className="bg-primary-700 p-6 text-center">
-                    <div className="text-4xl font-black text-white mb-2">6</div>
+                    <div className="text-4xl font-black text-white mb-2">{totalCount}</div>
                     <div className="text-sm font-bold text-primary-300 uppercase">Open Roles</div>
                   </div>
                   <div className="bg-primary-600 p-6 text-center">
@@ -264,7 +178,6 @@ function CareersPage() {
             </div>
           </div>
 
-          {/* Benefits Section */}
           <div className="mb-20">
             <div className="text-center mb-12">
               <div className="inline-block mb-4 border-2 border-primary-900 bg-white px-4 py-1 shadow-[2px_2px_0_0_#1e3a8a]">
@@ -290,7 +203,6 @@ function CareersPage() {
             </div>
           </div>
 
-          {/* Open Positions */}
           <div className="mb-20">
             <div className="text-center mb-12">
               <div className="inline-block mb-4 border-2 border-primary-900 bg-white px-4 py-1 shadow-[2px_2px_0_0_#1e3a8a]">
@@ -301,68 +213,79 @@ function CareersPage() {
               </h2>
             </div>
 
-            {/* Filter Tabs */}
             <div className="flex flex-wrap justify-center gap-2 mb-10">
-              {departments.map((dept) => (
+              {jobTypes.map((type) => (
                 <button
-                  key={dept}
-                  onClick={() => setFilter(dept)}
+                  key={type}
+                  onClick={() => setFilter(type)}
                   className={`px-6 py-2 font-bold uppercase tracking-wider text-sm border-2 transition-all ${
-                    filter === dept
+                    filter === type
                       ? 'bg-primary-900 text-white border-primary-900 shadow-[4px_4px_0_0_#1e3a8a]'
                       : 'bg-white text-primary-900 border-primary-900 hover:bg-primary-50'
                   }`}
                 >
-                  {dept}
+                  {type}
                 </button>
               ))}
             </div>
 
-            {/* Jobs List */}
-            <div className="space-y-4">
-              {filteredJobs.map((job) => (
-                <div key={job.id} className="bg-white border-4 border-primary-900 p-6 md:p-8 shadow-[6px_6px_0_0_#1e3a8a] hover:shadow-[8px_8px_0_0_#1e3a8a] hover:translate-x-[-2px] hover:translate-y-[-2px] transition-all duration-300">
-                  <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-                    <div className="flex-1">
-                      <div className="flex items-center gap-3 mb-2">
-                        <span className="text-sm font-bold text-primary-600 uppercase tracking-wider">{job.department}</span>
-                        <span className="w-1 h-1 bg-primary-900 rounded-full"></span>
-                        <span className="text-sm font-bold text-primary-600 uppercase tracking-wider">{job.id.toString().padStart(2, '0')}</span>
+            {loading && (
+              <div className="text-center py-12">
+                <p className="text-xl font-bold text-primary-900">Loading job listings...</p>
+              </div>
+            )}
+
+            {error && !loading && (
+              <div className="text-center py-12">
+                <p className="text-xl font-bold text-red-600">{error}</p>
+              </div>
+            )}
+
+            {!loading && !error && (
+              <div className="space-y-4">
+                {jobs.map((job) => (
+                  <div key={job.id} className="bg-white border-4 border-primary-900 p-6 md:p-8 shadow-[6px_6px_0_0_#1e3a8a] hover:shadow-[8px_8px_0_0_#1e3a8a] hover:translate-x-[-2px] hover:translate-y-[-2px] transition-all duration-300">
+                    <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                      <div className="flex-1">
+                        <div className="flex items-center gap-3 mb-2">
+                          <span className="text-sm font-bold text-primary-600 uppercase tracking-wider">{job.company?.name || 'Company'}</span>
+                          <span className="w-1 h-1 bg-primary-900 rounded-full"></span>
+                          <span className="text-sm font-bold text-primary-600 uppercase tracking-wider">{job.slug}</span>
+                        </div>
+                        <h3 className="text-2xl font-black text-primary-900 uppercase mb-2">{job.title}</h3>
+                        <div className="flex flex-wrap gap-3">
+                          <span className="text-sm font-medium text-primary-700">{job.location}</span>
+                          <span className="text-sm font-medium text-primary-700">•</span>
+                          <span className="text-sm font-medium text-primary-700">{job.job_type_display}</span>
+                          <span className="text-sm font-medium text-primary-700">•</span>
+                          <span className="text-sm font-medium text-primary-700">{job.experience_level_display}</span>
+                        </div>
                       </div>
-                      <h3 className="text-2xl font-black text-primary-900 uppercase mb-2">{job.title}</h3>
-                      <div className="flex flex-wrap gap-3">
-                        <span className="text-sm font-medium text-primary-700">{job.location}</span>
-                        <span className="text-sm font-medium text-primary-700">•</span>
-                        <span className="text-sm font-medium text-primary-700">{job.type}</span>
-                        <span className="text-sm font-medium text-primary-700">•</span>
-                        <span className="text-sm font-medium text-primary-700">{job.experience}</span>
+                      <div className="flex gap-3">
+                        <button
+                          onClick={() => setSelectedJob(job)}
+                          className="bg-primary-900 text-white font-bold py-3 px-6 uppercase tracking-wider border-2 border-primary-900 shadow-[4px_4px_0_0_#1e3a8a] hover:bg-primary-700 hover:shadow-none hover:translate-x-[2px] hover:translate-y-[2px] transition-all"
+                        >
+                          View Details
+                        </button>
+                        <Link to="/contact" className="boxy-btn py-3 px-6">
+                          Apply
+                        </Link>
                       </div>
-                    </div>
-                    <div className="flex gap-3">
-                      <button
-                        onClick={() => setSelectedJob(job)}
-                        className="bg-primary-900 text-white font-bold py-3 px-6 uppercase tracking-wider border-2 border-primary-900 shadow-[4px_4px_0_0_#1e3a8a] hover:bg-primary-700 hover:shadow-none hover:translate-x-[2px] hover:translate-y-[2px] transition-all"
-                      >
-                        View Details
-                      </button>
-                      <Link to="/contact" className="boxy-btn py-3 px-6">
-                        Apply
-                      </Link>
                     </div>
                   </div>
-                </div>
-              ))}
-            </div>
+                ))}
 
-            {filteredJobs.length === 0 && (
-              <div className="text-center py-12">
-                <p className="text-xl font-bold text-primary-900">No positions available in this department.</p>
-                <p className="text-primary-700 mt-2">Check back soon for new opportunities!</p>
+                {jobs.length === 0 && (
+                  <div className="text-center py-12">
+                    <p className="text-xl font-bold text-primary-900">No positions available.</p>
+                    <p className="text-primary-700 mt-2">Check back soon for new opportunities!</p>
+                  </div>
+                )}
               </div>
             )}
           </div>
 
-          {/* Culture Section */}
           <div className="mb-20 bg-white border-4 border-primary-900 p-8 md:p-12 shadow-[12px_12px_0_0_#1e3a8a]">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
               <div>
@@ -431,7 +354,6 @@ function CareersPage() {
             </div>
           </div>
 
-          {/* CTA Section */}
           <div className="bg-primary-900 border-4 border-primary-900 p-12 md:p-16 shadow-[12px_12px_0_0_#1e3a8a] relative overflow-hidden">
             <div className="absolute top-0 right-0 w-64 h-64 bg-primary-600 rounded-full blur-3xl opacity-30"></div>
             <div className="relative z-10 text-center">
@@ -458,7 +380,6 @@ function CareersPage() {
         </div>
       </div>
 
-      {/* Job Modal */}
       <JobModal job={selectedJob} isOpen={!!selectedJob} onClose={() => setSelectedJob(null)} />
     </div>
   )
