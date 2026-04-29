@@ -3,16 +3,36 @@ import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { HiUserCircle, HiOutlineUserCircle, HiOutlineBell, HiOutlineBriefcase } from 'react-icons/hi2'
 import { useNavbarStore } from '../../stores/navbarStore'
 import { useAuthStore } from '../../stores/authStore'
+import { useNotificationStore } from '../../stores/notificationStore'
+import NotificationDropdown from './NotificationDropdown'
 import logo from '../../assets/Logo.PNG'
 
 function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false)
+  const [isNotificationOpen, setIsNotificationOpen] = useState(false)
   const location = useLocation()
   const navigate = useNavigate()
   const { navLinks } = useNavbarStore()
   const { isAuthenticated, logout } = useAuthStore()
   const storeUser = useAuthStore((state) => state.user);
+  const { unreadCount, fetchNotifications } = useNotificationStore()
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      fetchNotifications()
+    }
+  }, [isAuthenticated, fetchNotifications])
+
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (isNotificationOpen && !e.target.closest('.notification-container')) {
+        setIsNotificationOpen(false)
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => document.removeEventListener('mousedown', handleClickOutside)
+  }, [isNotificationOpen])
 
   // Close menus when route changes
   useEffect(() => {
@@ -75,10 +95,18 @@ function Navbar() {
                   </Link>
 
                   {/* Notification Bell (Boxy) */}
-                  <button className="relative w-11 h-11 border-2 border-primary-900 bg-primary-50 flex items-center justify-center text-primary-900 shadow-[4px_4px_0_0_#1e3a8a] hover:shadow-none hover:translate-x-[4px] hover:translate-y-[4px] transition-all">
-                    <HiOutlineBell className="w-6 h-6" />
+                  <div className="notification-container relative">
+                    <button
+                      onClick={() => setIsNotificationOpen(!isNotificationOpen)}
+                      className="relative w-11 h-11 border-2 border-primary-900 bg-primary-50 flex items-center justify-center text-primary-900 shadow-[4px_4px_0_0_#1e3a8a] hover:shadow-none hover:translate-x-[4px] hover:translate-y-[4px] transition-all"
+                    >
+                      <HiOutlineBell className="w-6 h-6" />
                     <span className="absolute -top-1.5 -right-1.5 w-3.5 h-3.5 bg-red-500 border-2 border-primary-900 rounded-none"></span>
                   </button>
+                    {isNotificationOpen && (
+                      <NotificationDropdown onClose={() => setIsNotificationOpen(false)} />
+                    )}
+                  </div>
 
                   {/* User Profile Dropdown */}
                   <div className="relative">
@@ -124,10 +152,20 @@ function Navbar() {
             <div className="flex items-center gap-4 lg:hidden">
               {/* Show bell on mobile if auth'd */}
               {isAuthenticated && (
-                <button className="relative p-2 text-primary-900">
-                  <HiOutlineBell className="w-7 h-7" />
-                  <span className="absolute top-1.5 right-1.5 w-2.5 h-2.5 bg-red-500 border border-white rounded-full"></span>
-                </button>
+                <div className="notification-container relative">
+                  <button
+                    onClick={() => setIsNotificationOpen(!isNotificationOpen)}
+                    className="relative w-11 h-11 border-2 border-primary-900 bg-primary-50 flex items-center justify-center text-primary-900 shadow-[4px_4px_0_0_#1e3a8a] hover:shadow-none hover:translate-x-[4px] hover:translate-y-[4px] transition-all"
+                  >
+                    <HiOutlineBell className="w-6 h-6" />
+                    {unreadCount > 0 && (
+                      <span className="absolute -top-1.5 -right-1.5 w-3.5 h-3.5 bg-red-500 border-2 border-primary-900 rounded-none"></span>
+                    )}
+                  </button>
+                  {isNotificationOpen && (
+                    <NotificationDropdown onClose={() => setIsNotificationOpen(false)} />
+                  )}
+                </div>
               )}
               
               <button
