@@ -1,0 +1,227 @@
+{
+  "info": {
+    "name": "Careers",
+    "description": "Zignature Careers API - Job listings and company endpoints",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8000"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{accessToken}}"
+      }
+    ]
+  },
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "requestlevel",
+        "exec": [
+          "if (!pm.request.url.path.includes('auth') && !pm.request.url.path.includes('login')) {",
+          "  pm.request.headers.add({ key: 'Authorization', value: 'Bearer {{accessToken}}' });",
+          "}"
+        ]
+      }
+    }
+  ],
+  "item": [
+    {
+      "name": "Jobs",
+      "item": [
+        {
+          "name": "List Jobs",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/careers/jobs/",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "careers", "jobs", ""]
+            }
+          }
+        },
+        {
+          "name": "List Jobs - Filter job_type",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/careers/jobs/?job_type=remote",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "careers", "jobs", ""],
+              "query": [
+                { "key": "job_type", "value": "remote" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "List Jobs - Filter experience_level",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/careers/jobs/?experience_level=senior",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "careers", "jobs", ""],
+              "query": [
+                { "key": "experience_level", "value": "senior" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "List Jobs - Filter company",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/careers/jobs/?company=zignature-tech",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "careers", "jobs", ""],
+              "query": [
+                { "key": "company", "value": "zignature-tech" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "List Jobs - Search",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/careers/jobs/?search=Python",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "careers", "jobs", ""],
+              "query": [
+                { "key": "search", "value": "Python" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "List Jobs - Order by title",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/careers/jobs/?ordering=title",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "careers", "jobs", ""],
+              "query": [
+                { "key": "ordering", "value": "title" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "List Jobs - Page 2",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/careers/jobs/?page=2",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "careers", "jobs", ""],
+              "query": [
+                { "key": "page", "value": "2" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Job Detail",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/careers/jobs/backend-developer/",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "careers", "jobs", "backend-developer", ""]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Companies",
+      "item": [
+        {
+          "name": "List Companies",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/careers/companies/",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "careers", "companies", ""]
+            }
+          }
+        },
+        {
+          "name": "List Companies - Search",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/careers/companies/?search=Zignature",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "careers", "companies", ""],
+              "query": [
+                { "key": "search", "value": "Zignature" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Company Detail",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/careers/companies/zignature-tech/",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "careers", "companies", "zignature-tech", ""]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Read-Only Tests",
+      "item": [
+        {
+          "name": "POST Jobs - 405",
+          "request": {
+            "method": "POST",
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/careers/jobs/",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "careers", "jobs", ""]
+            }
+          }
+        },
+        {
+          "name": "PUT Job - 405",
+          "request": {
+            "method": "PUT",
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/careers/jobs/backend-developer/",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "careers", "jobs", "backend-developer", ""]
+            }
+          }
+        },
+        {
+          "name": "DELETE Job - 405",
+          "request": {
+            "method": "DELETE",
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/careers/jobs/backend-developer/",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "careers", "jobs", "backend-developer", ""]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
