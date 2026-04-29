@@ -17,6 +17,10 @@
   @apply bg-[#2563eb] text-white font-bold py-3 px-8 uppercase tracking-wider border-2 border-[#1e3a8a] shadow-[4px_4px_0_0_#1e3a8a] hover:shadow-none hover:translate-x-[4px] hover:translate-y-[4px] transition-all cursor-pointer;
 }
 
+.boxy-btn-secondary {
+  @apply bg-white text-[#1e3a8a] font-bold py-3 px-8 uppercase tracking-wider border-2 border-[#1e3a8a] shadow-[4px_4px_0_0_#1e3a8a] hover:shadow-none hover:translate-x-[4px] hover:translate-y-[4px] transition-all cursor-pointer;
+}
+
 .boxy-card {
   @apply bg-white border-2 border-[#1e3a8a] shadow-[8px_8px_0_0_#1e3a8a] p-8;
 }
@@ -30,6 +34,7 @@
 html {
   scroll-behavior: smooth;
   scroll-padding-top: 80px;
+  zoom: 0.8; /* or 0.8 for 80% */
 }
 
 body {

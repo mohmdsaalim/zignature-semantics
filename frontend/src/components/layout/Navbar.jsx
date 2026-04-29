@@ -1,83 +1,196 @@
-import { useState } from 'react'
-import { Link, useLocation } from 'react-router-dom'
-import { HiEnvelope } from 'react-icons/hi2'
+import { useState, useEffect } from 'react'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
+// Removed HiMenu and HiX from imports!
+import { HiUserCircle, HiOutlineUserCircle, HiOutlineBell, HiOutlineBriefcase } from 'react-icons/hi2'
 import { useNavbarStore } from '../../stores/navbarStore'
-import logo from '../../assets/Logo.jpg'
+import { useAuthStore } from '../../stores/authStore'
+import logo from '../../assets/Logo.PNG'
 
 function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const [isUserMenuOpen, setIsUserMenuOpen] = useState(false)
   const location = useLocation()
+  const navigate = useNavigate()
   const { navLinks } = useNavbarStore()
+  const { isAuthenticated, logout } = useAuthStore()
 
-  const isActive = (path) => {
-    return location.pathname === path
+  // Close menus when route changes
+  useEffect(() => {
+    setIsMenuOpen(false)
+    setIsUserMenuOpen(false)
+  }, [location.pathname])
+
+  const isActive = (path) => location.pathname === path
+
+  const handleSignOut = async () => {
+    await logout()
+    navigate('/')
+    setIsUserMenuOpen(false)
   }
 
   return (
     <>
-      <div className="h-16 w-full md:hidden" aria-hidden="true"></div>
-      <div className="h-24 w-full hidden md:block" aria-hidden="true"></div>
+      {/* Spacer to prevent content from hiding under the fixed navbar */}
+      <div className="h-20 md:h-24 w-full" aria-hidden="true"></div>
 
       <header className="fixed top-0 left-0 w-full bg-white border-b-4 border-primary-900 z-[100]">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16 md:h-24">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between items-center h-20 md:h-24">
 
-            {/* Logo */}
-            <div className="flex-shrink-0 flex items-center md:pr-8 h-full">
-              <Link to="/" className="flex items-center h-full">
-                <img src={logo} alt="ZEG Logo" className="h-12 md:h-full py-2 md:py-3 w-auto object-contain mix-blend-darken origin-left" />
+            {/* --- LOGO --- */}
+            <div className="flex-shrink-0 flex items-center h-full py-3">
+              <Link to="/" className="flex items-center h-full hover:opacity-80 transition-opacity">
+                <img src={logo} alt="ZEG Logo" className="h-10 md:h-12 w-auto object-contain mix-blend-darken" />
               </Link>
             </div>
 
-            {/* Desktop Links */}
-            <nav className="hidden md:flex space-x-12 items-center">
+            {/* --- DESKTOP NAVIGATION --- */}
+            <nav className="hidden lg:flex items-center space-x-2">
               {navLinks.map((link) => (
                 <Link
                   key={link.path}
                   to={link.path}
-                  className="group relative text-[15px] font-black text-[#1409e6] uppercase tracking-[0.15em] py-2"
+                  className={`px-5 py-2.5 text-[15px] font-black uppercase tracking-[0.15em] border-2 transition-all
+                    ${isActive(link.path) 
+                      ? 'bg-primary-100 border-primary-900 text-primary-900 shadow-[3px_3px_0_0_#1e3a8a]' 
+                      : 'border-transparent text-primary-700 hover:border-primary-900 hover:bg-primary-50 hover:text-primary-900'
+                    }`}
                 >
                   {link.label}
-                  <span className={`absolute bottom-0 left-0 w-full h-[3px] bg-primary-900 transform origin-left transition-transform duration-300 ease-out ${isActive(link.path) ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100'
-                    }`}></span>
                 </Link>
               ))}
             </nav>
 
-            {/* Desktop CTA */}
-            <Link to="/contact" className="boxy-btn text-sm flex items-center space-x-2">
-              <HiEnvelope size={18} />
-              <span>Contact</span>
-            </Link>
+            {/* --- DESKTOP ACTIONS (Right Side) --- */}
+            <div className="hidden lg:flex items-center gap-6">
+              {isAuthenticated ? (
+                <div className="flex items-center gap-4">
+                  {/* Find Jobs Button */}
+                  <Link 
+                    to="/careers"
+                    className="flex items-center gap-2 text-sm font-black text-primary-900 uppercase tracking-widest px-5 py-2.5 border-2 border-primary-900 bg-white shadow-[4px_4px_0_0_#1e3a8a] hover:shadow-none hover:translate-x-[4px] hover:translate-y-[4px] transition-all"
+                  >
+                    <HiOutlineBriefcase className="w-5 h-5" />
+                    <span>Serach Jobs</span>
+                  </Link>
 
-            {/* Mobile Menu Button */}
-            <button
-              className="md:hidden w-10 h-10 flex items-center justify-center text-primary-900"
-              onClick={() => setIsMenuOpen(!isMenuOpen)}
-              aria-label="Toggle menu"
-            >
-              <span className="relative w-6 h-0.5 bg-current">
-                <span className={`absolute left-0 w-6 h-0.5 bg-current transition-all duration-300 ${isMenuOpen ? 'top-0 rotate-45' : '-top-2'}`}></span>
-                <span className={`absolute left-0 w-6 h-0.5 bg-current transition-all duration-300 ${isMenuOpen ? 'opacity-0' : 'top-0'}`}></span>
-                <span className={`absolute left-0 w-6 h-0.5 bg-current transition-all duration-300 ${isMenuOpen ? 'top-0 -rotate-45' : 'top-2'}`}></span>
-              </span>
-            </button>
+                  {/* Notification Bell (Boxy) */}
+                  <button className="relative w-11 h-11 border-2 border-primary-900 bg-primary-50 flex items-center justify-center text-primary-900 shadow-[4px_4px_0_0_#1e3a8a] hover:shadow-none hover:translate-x-[4px] hover:translate-y-[4px] transition-all">
+                    <HiOutlineBell className="w-6 h-6" />
+                    <span className="absolute -top-1.5 -right-1.5 w-3.5 h-3.5 bg-red-500 border-2 border-primary-900 rounded-none"></span>
+                  </button>
+
+                  {/* User Profile Dropdown */}
+                  <div className="relative">
+                    <button 
+                      onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
+                      className="w-11 h-11 border-2 border-primary-900 bg-primary-600 flex items-center justify-center text-white shadow-[4px_4px_0_0_#1e3a8a] hover:shadow-none hover:translate-x-[4px] hover:translate-y-[4px] transition-all focus:outline-none"
+                    >
+                      <HiOutlineUserCircle className="w-7 h-7" />
+                    </button>
+
+                    {isUserMenuOpen && (
+                      <div className="absolute right-0 mt-4 w-56 bg-white border-4 border-primary-900 shadow-[8px_8px_0_0_#1e3a8a] flex flex-col z-50">
+                        <div className="px-4 py-3 border-b-2 border-primary-900 bg-primary-50">
+                          <p className="text-sm font-black text-primary-900 truncate">Zignature User</p>
+                          <p className="text-xs font-bold text-primary-600 truncate">user@zignature.com</p>
+                        </div>
+                        <Link to="/profile" className="px-4 py-3 text-sm font-black text-primary-900 uppercase tracking-wider hover:bg-primary-100 border-b-2 border-primary-900">
+                          My Profile
+                        </Link>
+                        <Link to="/applications" className="px-4 py-3 text-sm font-black text-primary-900 uppercase tracking-wider hover:bg-primary-100 border-b-2 border-primary-900">
+                          Applications
+                        </Link>
+                        <button onClick={handleSignOut} className="w-full text-left px-4 py-3 text-sm font-black text-white bg-red-600 uppercase tracking-wider hover:bg-red-700 transition-colors">
+                          Sign Out
+                        </button>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              ) : (
+                <div className="flex items-center gap-4">
+                  <Link to="/login" className="text-[15px] font-black text-primary-900 uppercase tracking-widest hover:text-primary-600 px-2 py-2">
+                    Sign In
+                  </Link>
+                  <Link to="/register" className="boxy-btn text-[15px]">
+                    Join Now
+                  </Link>
+                </div>
+              )}
+            </div>
+
+            {/* --- MOBILE HAMBURGER BUTTON (YOUR CUSTOM ANIMATION RESTORED) --- */}
+            <div className="flex items-center gap-4 lg:hidden">
+              {/* Show bell on mobile if auth'd */}
+              {isAuthenticated && (
+                <button className="relative p-2 text-primary-900">
+                  <HiOutlineBell className="w-7 h-7" />
+                  <span className="absolute top-1.5 right-1.5 w-2.5 h-2.5 bg-red-500 border border-white rounded-full"></span>
+                </button>
+              )}
+              
+              <button
+                className="w-12 h-12 border-2 border-primary-900 bg-primary-50 flex items-center justify-center text-primary-900 shadow-[4px_4px_0_0_#1e3a8a] active:shadow-none active:translate-x-[4px] active:translate-y-[4px] transition-all"
+                onClick={() => setIsMenuOpen(!isMenuOpen)}
+                aria-label="Toggle menu"
+              >
+                {/* YOUR ORIGINAL ANIMATED HAMBURGER SPANS */}
+                <span className="relative w-6 h-0.5 bg-current">
+                  <span className={`absolute left-0 w-6 h-0.5 bg-current transition-all duration-300 ${isMenuOpen ? 'top-0 rotate-45' : '-top-2'}`}></span>
+                  <span className={`absolute left-0 w-6 h-0.5 bg-current transition-all duration-300 ${isMenuOpen ? 'opacity-0' : 'top-0'}`}></span>
+                  <span className={`absolute left-0 w-6 h-0.5 bg-current transition-all duration-300 ${isMenuOpen ? 'top-0 -rotate-45' : 'top-2'}`}></span>
+                </span>
+              </button>
+            </div>
+
           </div>
         </div>
 
-        {/* Mobile Dropdown */}
-        <div className={`md:hidden bg-white shadow-lg border-t-2 border-primary-900 ${isMenuOpen ? 'block' : 'hidden'}`}>
-          <div className="px-4 py-4 space-y-4">
-            {navLinks.map((link) => (
-              <Link
-                key={link.path}
-                to={link.path}
-                className={`block py-2 text-[15px] font-black uppercase tracking-[0.15em] transition-colors duration-200 ${isActive(link.path) ? 'text-[#1409e6]' : 'text-gray-700 hover:text-[#1409e6]'
-                  }`}
-              >
-                {link.label}
-              </Link>
-            ))}
+        {/* --- MOBILE MENU OVERLAY (Massive & Blocky) --- */}
+        <div className={`lg:hidden border-t-4 border-primary-900 transition-all duration-300 ease-in-out overflow-hidden ${isMenuOpen ? 'max-h-screen border-b-4' : 'max-h-0 border-b-0'}`}>
+          <div className="bg-white flex flex-col">
+            
+            {/* Main Links */}
+            <div className="flex flex-col">
+              {navLinks.map((link) => (
+                <Link
+                  key={link.path}
+                  to={link.path}
+                  className={`px-6 py-5 text-xl font-black uppercase tracking-widest border-b-2 border-primary-900/20 
+                    ${isActive(link.path) ? 'bg-primary-100 text-primary-900' : 'text-primary-800 hover:bg-primary-50'}`}
+                >
+                  {link.label}
+                </Link>
+              ))}
+            </div>
+            
+            {/* Mobile Auth Actions */}
+            <div className="p-6 bg-primary-50 flex flex-col gap-4">
+              {isAuthenticated ? (
+                <>
+                  <Link to="/careers" className="boxy-btn text-center w-full text-lg">
+                    Search Jobs
+                  </Link>
+                  <Link to="/profile" className="boxy-btn-secondary text-center w-full text-lg">
+                    My Profile
+                  </Link>
+                  <button onClick={handleSignOut} className="w-full py-4 mt-2 border-2 border-primary-900 bg-red-600 text-white font-black text-lg uppercase tracking-wider shadow-[4px_4px_0_0_#1e3a8a] active:translate-x-[4px] active:translate-y-[4px] active:shadow-none transition-all">
+                    Sign Out
+                  </button>
+                </>
+              ) : (
+                <>
+                  <Link to="/login" className="boxy-btn-secondary text-center w-full text-lg">
+                    Sign In
+                  </Link>
+                  <Link to="/register" className="boxy-btn text-center w-full text-lg">
+                    Create Account
+                  </Link>
+                </>
+              )}
+            </div>
+
           </div>
         </div>
       </header>

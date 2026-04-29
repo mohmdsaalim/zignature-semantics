@@ -14,6 +14,10 @@ env = environ.Env(
     JWT_REFRESH_TOKEN_LIFETIME_DAYS=(int, 7),
     DB_PORT=(str, "5432"),
     DB_HOST=(str, "127.0.0.1"),
+    SPECTACULAR_TITLE=(str, "Zignature API"),
+    SPECTACULAR_DESC=(str, "API documentation for Zignature"),
+    SPECTACULAR_SERVER_URL=(str, "http://localhost:8000/api/v1"),
+    SPECTACULAR_VERSION=(str, "1.0.0"),
 )
 
 environ.Env.read_env(BASE_DIR / ".env")
@@ -35,10 +39,11 @@ THIRD_PARTY_APPS = [
     "corsheaders",
     "rest_framework_simplejwt.token_blacklist",
     "drf_spectacular",
+    "django_filters",
 ]
 
 LOCAL_APPS = [
-    "apps.accounts",  # ← Added Ticket 1.2
+    "apps.accounts",  # ← Ticket 1.2
     "apps.profiles",  # ← Ticket 1.6
     "apps.careers",   # ← Ticket 2.1
     "common",
@@ -107,22 +112,39 @@ AUTH_USER_MODEL = "accounts.User"
 
 REST_FRAMEWORK = {
     "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
+    # Auth — JWT access token from Authorization header
     "DEFAULT_AUTHENTICATION_CLASSES": [
         "rest_framework_simplejwt.authentication.JWTAuthentication",
     ],
+     # Default: public endpoints unless explicitly restricted
     "DEFAULT_PERMISSION_CLASSES": [
-        "rest_framework.permissions.IsAuthenticated",
+        "rest_framework.permissions.IsAuthenticatedOrReadOnly",
     ],
+     # Pagination — all list endpoints return paginated results
+    # system.md §2.1: /careers/jobs/ target p95 = 150ms; PAGE_SIZE=10 keeps
+    # response payload small and well within that budget.
     "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
-    "PAGE_SIZE": 20,
+    "PAGE_SIZE": 10,
+    # Filtering — enables DjangoFilterBackend globally
+    "DEFAULT_FILTER_BACKENDS": [
+        "django_filters.rest_framework.DjangoFilterBackend",
+        "rest_framework.filters.OrderingFilter",
+    ],
     # ── Wire in the standard error envelope ─────────────────────────────────
     "EXCEPTION_HANDLER": "common.exception_handler.custom_exception_handler",
 }
 
 SPECTACULAR_SETTINGS = {
-    "TITLE": "Zignature API",
-    "DESCRIPTION": "API documentation for Zignature",
-    "VERSION": "1.0.0",
+    "TITLE": env("SPECTACULAR_TITLE"),
+    "DESCRIPTION": env("SPECTACULAR_DESC"),
+    "SERVERS": [
+        {
+            "url": env("SPECTACULAR_SERVER_URL"),
+            "description": "API Server",
+        },
+    ],
+    "SCHEMA_PATH_PREFIX": r"/api/v1/",
+    "VERSION": env("SPECTACULAR_VERSION"),
     "SCHEMA_PATH_PREFIX_TRIM": True,
     "COMPONENT_SPLIT_REQUEST": False,
 }
