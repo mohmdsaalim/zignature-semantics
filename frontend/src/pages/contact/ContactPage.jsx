@@ -1,107 +1,153 @@
 import React from 'react';
+import { HiOutlineChatBubbleLeftEllipsis, HiOutlineBuildingOffice, HiOutlineEnvelope } from 'react-icons/hi2';
 
 const ContactPage = ({ embedded = false }) => {
   return (
-    <div className={`w-full bg-primary-900 relative z-10 flex flex-col lg:flex-row ${embedded ? '' : 'min-h-[calc(100vh-100px)]'} overflow-hidden`}>
+    <div className={`relative w-full bg-primary-50 font-sans ${embedded ? '' : 'min-h-screen pb-24 pt-28 md:pt-36'} px-4 sm:px-6 lg:px-8`}>
       
-      {/* Left Column - Contact Info */}
-      <div className="w-full lg:w-5/12 bg-primary-900 p-6 md:p-10 lg:p-12 flex flex-col justify-between text-white relative flex-shrink-0">
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff10_1px,transparent_1px),linear-gradient(to_bottom,#ffffff10_1px,transparent_1px)] bg-[size:2rem_2rem] pointer-events-none"></div>
+      {/* Background Grid Pattern */}
+      {!embedded && (
+        <>
+          <style>
+            {`
+              .bg-grid-pattern {
+                background-image: linear-gradient(to right, rgba(30, 58, 138, 0.10) 2px, transparent 2px),
+                                  linear-gradient(to bottom, rgba(30, 58, 138, 0.10) 2px, transparent 2px);
+                background-size: 40px 40px;
+              }
+            `}
+          </style>
+          <div className="absolute inset-0 bg-grid-pattern z-0 pointer-events-none"></div>
+        </>
+      )}
+
+      <div className="relative z-10 max-w-7xl mx-auto">
         
-        <div className="relative z-10 flex flex-col h-full">
-          <div>
-
-            <h2 className="text-4xl md:text-5xl lg:text-7xl font-black uppercase tracking-tighter leading-[0.85] mb-6">
-              Deploy <br className="hidden md:block" /> The <br className="hidden md:block" /> System.
-            </h2>
-
-            <p className="text-sm md:text-base text-primary-200/80 font-medium leading-snug mb-8 max-w-sm">
-              We do not accept standard briefs. We execute structural overrides. Submit your parameters, and our engineering team will initiate direct contact.
-            </p>
+        {/* Header Section */}
+        <div className="mb-12 text-center md:text-left">
+          <div className="inline-block mb-4 border-2 border-primary-900 bg-white px-6 py-2 shadow-[4px_4px_0_0_#1e3a8a] transform -rotate-2">
+            <span className="text-sm font-black text-primary-900 uppercase tracking-[0.2em]">We're here to help</span>
           </div>
-
-          <div className="space-y-4 md:space-y-6 font-mono text-sm mt-auto mb-10">
-            <div>
-              <p className="text-primary-400/60 uppercase tracking-widest mb-1 text-[9px] font-bold">/ Direct Feed</p>
-              <a href="mailto:systems@zeg.studio" className="text-base font-bold tracking-tight hover:text-primary-300 transition-colors">systems@zeg.studio</a>
-            </div>
-            <div>
-              <p className="text-primary-400/60 uppercase tracking-widest mb-1 text-[9px] font-bold">/ Secure Line</p>
-              <p className="text-base font-bold tracking-tight">+1 (800) 555-0199</p>
-            </div>
-          </div>
-
-          <div className="relative z-10 pt-4 border-t border-white/20">
-             <p className="font-mono text-[10px] text-white/40 uppercase tracking-[0.3em] font-bold">SECURE / END-TO-END ENCRYPTED</p>
-          </div>
+          <h1 className="text-5xl md:text-7xl font-black text-primary-900 uppercase tracking-tighter leading-none">
+            Get In <span className="text-primary-600">Touch</span>
+          </h1>
+          <p className="mt-6 text-lg md:text-xl font-bold text-primary-800 max-w-2xl">
+            Whether you're a candidate looking for your next big role or an employer scaling your team, our dedicated support staff is ready to assist you.
+          </p>
         </div>
-      </div>
 
-      {/* Right Column - The Form */}
-      <div className="w-full lg:w-7/12 bg-primary-50 p-6 md:p-10 lg:p-16 border-l-0 lg:border-l-8 border-primary-900 relative flex-1 overflow-y-auto overflow-x-hidden">
-        <div className="max-w-[40rem] mx-auto lg:mx-0">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
           
-          <h3 className="text-2xl md:text-3xl font-black text-primary-900 uppercase tracking-tighter mb-8">Client Parameters</h3>
-          
-          <form className="flex flex-col gap-5 lg:gap-6">
+          {/* Left Column - Contact Info Cards */}
+          <div className="lg:col-span-5 space-y-6">
             
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-5 lg:gap-6">
-              <div className="flex flex-col">
-                <label className="font-mono text-[10px] font-bold text-primary-900 uppercase tracking-widest mb-2" htmlFor="firstName">/ First Name</label>
-                <input 
-                  type="text" 
-                  id="firstName"
-                  autoComplete="given-name"
-                  className="w-full bg-white border-2 border-primary-900/20 p-3 lg:p-4 text-primary-900 font-medium focus:border-primary-900 focus:outline-none focus:ring-0 transition-colors shadow-[4px_4px_0_0_#1e3a8a15] focus:shadow-[4px_4px_0_0_#1e3a8a50]"
-                  placeholder="Enter First Name"
-                />
+            <div className="bg-white border-4 border-primary-900 p-6 md:p-8 shadow-[8px_8px_0_0_#1e3a8a] hover:-translate-y-1 transition-transform">
+              <div className="w-14 h-14 bg-primary-100 border-4 border-primary-900 flex items-center justify-center mb-6 shadow-[4px_4px_0_0_#1e3a8a]">
+                <HiOutlineChatBubbleLeftEllipsis className="w-7 h-7 text-primary-900" />
               </div>
-              <div className="flex flex-col">
-                <label className="font-mono text-[10px] font-bold text-primary-900 uppercase tracking-widest mb-2" htmlFor="lastName">/ Last Name</label>
-                <input 
-                  type="text" 
-                  id="lastName"
-                  autoComplete="family-name"
-                  className="w-full bg-white border-2 border-primary-900/20 p-3 lg:p-4 text-primary-900 font-medium focus:border-primary-900 focus:outline-none focus:ring-0 transition-colors shadow-[4px_4px_0_0_#1e3a8a15] focus:shadow-[4px_4px_0_0_#1e3a8a50]"
-                  placeholder="Enter Last Name"
-                />
+              <h3 className="text-2xl font-black text-primary-900 uppercase tracking-tighter mb-2">Job Seeker Support</h3>
+              <p className="text-primary-700 font-bold mb-4">Need help with your profile, applications, or resume formatting?</p>
+              <a href="mailto:support@zignature.com" className="text-lg font-black text-primary-600 hover:text-primary-900 uppercase underline decoration-4 underline-offset-4">support@zignature.com</a>
+            </div>
+
+            <div className="bg-primary-900 text-white border-4 border-primary-900 p-6 md:p-8 shadow-[8px_8px_0_0_#1e3a8a] hover:-translate-y-1 transition-transform">
+              <div className="w-14 h-14 bg-primary-600 border-4 border-white flex items-center justify-center mb-6 shadow-[4px_4px_0_0_#ffffff]">
+                <HiOutlineBuildingOffice className="w-7 h-7 text-white" />
               </div>
+              <h3 className="text-2xl font-black uppercase tracking-tighter mb-2">Employer Sales</h3>
+              <p className="text-primary-200 font-bold mb-4">Want to post jobs in bulk or need a custom hiring solution?</p>
+              <a href="mailto:employers@zignature.com" className="text-lg font-black text-white hover:text-primary-300 uppercase underline decoration-4 underline-offset-4">employers@zignature.com</a>
             </div>
 
-            <div className="flex flex-col">
-              <label className="font-mono text-[10px] font-bold text-primary-900 uppercase tracking-widest mb-2" htmlFor="email">/ Target Email</label>
-              <input 
-                type="email" 
-                id="email"
-                autoComplete="email"
-                className="w-full bg-white border-2 border-primary-900/20 p-3 lg:p-4 text-primary-900 font-medium focus:border-primary-900 focus:outline-none focus:ring-0 transition-colors shadow-[4px_4px_0_0_#1e3a8a15] focus:shadow-[4px_4px_0_0_#1e3a8a50]"
-                placeholder="Secure email address"
-              />
+            <div className="bg-primary-100 border-4 border-primary-900 p-6 md:p-8 shadow-[8px_8px_0_0_#1e3a8a] hover:-translate-y-1 transition-transform">
+              <div className="w-14 h-14 bg-white border-4 border-primary-900 flex items-center justify-center mb-6 shadow-[4px_4px_0_0_#1e3a8a]">
+                <HiOutlineEnvelope className="w-7 h-7 text-primary-900" />
+              </div>
+              <h3 className="text-2xl font-black text-primary-900 uppercase tracking-tighter mb-2">Global HQ</h3>
+              <p className="text-primary-800 font-bold">
+                123 Innovation Drive<br />
+                Tech District, NY 10001<br />
+                United States
+              </p>
             </div>
 
-            <div className="flex flex-col">
-              <label className="font-mono text-[10px] font-bold text-primary-900 uppercase tracking-widest mb-2" htmlFor="objective">/ Deployment Objective</label>
-              <textarea 
-                id="objective"
-                rows="4"
-                className="w-full bg-white border-2 border-primary-900/20 p-3 lg:p-4 text-primary-900 font-medium focus:border-primary-900 focus:outline-none focus:ring-0 transition-colors shadow-[4px_4px_0_0_#1e3a8a15] focus:shadow-[4px_4px_0_0_#1e3a8a50] resize-none"
-                placeholder="Specify the structural changes required..."
-              ></textarea>
-            </div>
+          </div>
 
-            <div className="pt-2">
-              <button 
-                type="button" 
-                className="w-full md:w-auto bg-primary-900 text-white font-black uppercase tracking-widest text-sm lg:text-base px-10 py-4 border-4 border-primary-900 hover:bg-white hover:text-primary-900 shadow-[6px_6px_0_0_#1e3a8a] active:shadow-none active:translate-x-[6px] active:translate-y-[6px] transition-all"
-              >
-                Transmit Brief
-              </button>
-            </div>
+          {/* Right Column - Contact Form */}
+          <div className="lg:col-span-7">
+            <div className="bg-white border-4 border-primary-900 shadow-[8px_8px_0_0_#1e3a8a] p-6 md:p-10">
+              <h2 className="text-3xl font-black text-primary-900 uppercase tracking-tighter mb-8 border-b-4 border-primary-900 pb-4">Send us a message</h2>
+              
+              <form className="flex flex-col gap-6">
+                
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="flex flex-col">
+                    <label className="font-bold text-primary-900 uppercase tracking-wider mb-2 text-sm" htmlFor="firstName">First Name</label>
+                    <input 
+                      type="text" id="firstName"
+                      className="w-full bg-primary-50 border-2 border-primary-900 p-4 font-bold text-primary-900 focus:outline-none focus:bg-white focus:shadow-[4px_4px_0_0_#1e3a8a] transition-all"
+                      placeholder="John"
+                    />
+                  </div>
+                  <div className="flex flex-col">
+                    <label className="font-bold text-primary-900 uppercase tracking-wider mb-2 text-sm" htmlFor="lastName">Last Name</label>
+                    <input 
+                      type="text" id="lastName"
+                      className="w-full bg-primary-50 border-2 border-primary-900 p-4 font-bold text-primary-900 focus:outline-none focus:bg-white focus:shadow-[4px_4px_0_0_#1e3a8a] transition-all"
+                      placeholder="Doe"
+                    />
+                  </div>
+                </div>
 
-          </form>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="flex flex-col">
+                    <label className="font-bold text-primary-900 uppercase tracking-wider mb-2 text-sm" htmlFor="email">Email Address</label>
+                    <input 
+                      type="email" id="email"
+                      className="w-full bg-primary-50 border-2 border-primary-900 p-4 font-bold text-primary-900 focus:outline-none focus:bg-white focus:shadow-[4px_4px_0_0_#1e3a8a] transition-all"
+                      placeholder="john@example.com"
+                    />
+                  </div>
+                  <div className="flex flex-col">
+                    <label className="font-bold text-primary-900 uppercase tracking-wider mb-2 text-sm" htmlFor="category">I am a...</label>
+                    <div className="relative">
+                      <select 
+                        id="category"
+                        className="w-full bg-primary-50 border-2 border-primary-900 p-4 font-bold text-primary-900 appearance-none focus:outline-none focus:bg-white focus:shadow-[4px_4px_0_0_#1e3a8a] transition-all cursor-pointer"
+                      >
+                        <option value="job_seeker">Job Seeker</option>
+                        <option value="employer">Employer / Hiring Manager</option>
+                        <option value="other">Other</option>
+                      </select>
+                      <div className="absolute inset-y-0 right-0 flex items-center px-4 pointer-events-none border-l-2 border-primary-900">
+                        <svg className="w-5 h-5 text-primary-900" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="square" strokeWidth="3" d="M19 9l-7 7-7-7"></path></svg>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="flex flex-col">
+                  <label className="font-bold text-primary-900 uppercase tracking-wider mb-2 text-sm" htmlFor="message">Message</label>
+                  <textarea 
+                    id="message" rows="5"
+                    className="w-full bg-primary-50 border-2 border-primary-900 p-4 font-bold text-primary-900 focus:outline-none focus:bg-white focus:shadow-[4px_4px_0_0_#1e3a8a] transition-all resize-none"
+                    placeholder="How can we help you today?"
+                  ></textarea>
+                </div>
+
+                <button 
+                  type="button" 
+                  className="w-full mt-2 bg-primary-900 text-white font-black uppercase tracking-widest text-lg px-8 py-5 border-4 border-primary-900 hover:bg-white hover:text-primary-900 shadow-[6px_6px_0_0_#1e3a8a] active:shadow-none active:translate-x-[6px] active:translate-y-[6px] transition-all"
+                >
+                  Send Message
+                </button>
+
+              </form>
+            </div>
+          </div>
+
         </div>
       </div>
-
     </div>
   );
 };

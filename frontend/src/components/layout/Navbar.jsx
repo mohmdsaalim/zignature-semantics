@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
-// Removed HiMenu and HiX from imports!
 import { HiUserCircle, HiOutlineUserCircle, HiOutlineBell, HiOutlineBriefcase } from 'react-icons/hi2'
 import { useNavbarStore } from '../../stores/navbarStore'
 import { useAuthStore } from '../../stores/authStore'
@@ -13,6 +12,7 @@ function Navbar() {
   const navigate = useNavigate()
   const { navLinks } = useNavbarStore()
   const { isAuthenticated, logout } = useAuthStore()
+  const storeUser = useAuthStore((state) => state.user);
 
   // Close menus when route changes
   useEffect(() => {
@@ -92,14 +92,14 @@ function Navbar() {
                     {isUserMenuOpen && (
                       <div className="absolute right-0 mt-4 w-56 bg-white border-4 border-primary-900 shadow-[8px_8px_0_0_#1e3a8a] flex flex-col z-50">
                         <div className="px-4 py-3 border-b-2 border-primary-900 bg-primary-50">
-                          <p className="text-sm font-black text-primary-900 truncate">Zignature User</p>
-                          <p className="text-xs font-bold text-primary-600 truncate">user@zignature.com</p>
+                          <p className="text-sm font-black text-primary-900 truncate">{storeUser?.username || "User"}</p>
+                          <p className="text-xs font-bold text-primary-600 truncate">{storeUser?.email || ""}</p>
                         </div>
                         <Link to="/profile" className="px-4 py-3 text-sm font-black text-primary-900 uppercase tracking-wider hover:bg-primary-100 border-b-2 border-primary-900">
                           My Profile
                         </Link>
-                        <Link to="/applications" className="px-4 py-3 text-sm font-black text-primary-900 uppercase tracking-wider hover:bg-primary-100 border-b-2 border-primary-900">
-                          Applications
+                        <Link to="/contact" className="px-4 py-3 text-sm font-black text-primary-900 uppercase tracking-wider hover:bg-primary-100 border-b-2 border-primary-900">
+                          Contact
                         </Link>
                         <button onClick={handleSignOut} className="w-full text-left px-4 py-3 text-sm font-black text-white bg-red-600 uppercase tracking-wider hover:bg-red-700 transition-colors">
                           Sign Out

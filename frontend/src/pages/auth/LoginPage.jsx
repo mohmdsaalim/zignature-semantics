@@ -17,7 +17,7 @@ const LoginPage = () => {
   const [showPassword, setShowPassword] = useState(false);
 
   useEffect(() => {
-    requireGuest('/profile');
+    requireGuest('/');
   }, [requireGuest]);
 
   useEffect(() => {
@@ -128,7 +128,7 @@ const LoginPage = () => {
                     className="h-4 w-4 text-primary-900 focus:ring-primary-900 border-gray-300 rounded"
                   />
                   <label htmlFor="remember-me" className="ml-2 block text-sm text-primary-900 font-medium">
-                    Remember me
+                    Keep me signed in on this device
                   </label>
                 </div>
                 <a href="#" className="text-sm font-bold text-primary-900 hover:underline">
