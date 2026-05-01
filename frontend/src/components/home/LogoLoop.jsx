@@ -1,7 +1,7 @@
 import React from 'react';
 
 const logos = [
-  "Zepto", "Swiggy", "Zomato", "Uber", "Blinkit", "CRED", "Razorpay", "Flipkart"
+  "Zepto", "Swiggy", "Uber", "Bharatpe", "flipkart", "Aditya Birla Capital"
 ];
 
 const LogoLoop = () => {

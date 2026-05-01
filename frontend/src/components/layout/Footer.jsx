@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
 import { useFooterStore } from '../../stores/footerStore'
 import logo from '../../assets/Logo.PNG'
+import { FaXTwitter, FaLinkedinIn, FaFacebookF, FaInstagram } from 'react-icons/fa6'
 
 function Footer() {
   const currentYear = new Date().getFullYear()
@@ -44,8 +45,10 @@ function Footer() {
           <div>
             <h4 className="font-black font-mono uppercase tracking-[0.2em] text-xs text-primary-900/40 mb-6">Contact</h4>
             <div className="space-y-4 font-bold text-primary-900 tracking-tight">
-              <p>{companyInfo.email}</p>
-              <p>+1 (800) 555-0199</p>
+              <a href={`mailto:${companyInfo.email}`}>
+                          {companyInfo.email}
+              </a><br></br>
+              <a href='tel:+919745188700'>+91 9745188700</a>
             </div>
           </div>
 
@@ -56,10 +59,36 @@ function Footer() {
           <p className="font-mono text-[10px] text-primary-900/40 uppercase tracking-[0.3em] font-bold">
             &copy; {currentYear} Zignature Semantics. All Rights Reserved.
           </p>
-          <div className="flex gap-8">
-            <a href="#" className="font-mono text-[10px] text-primary-900 font-bold uppercase tracking-widest border-b border-primary-900/20 hover:border-primary-900">Twitter</a>
-            <a href="#" className="font-mono text-[10px] text-primary-900 font-bold uppercase tracking-widest border-b border-primary-900/20 hover:border-primary-900">LinkedIn</a>
-            <a href="#" className="font-mono text-[10px] text-primary-900 font-bold uppercase tracking-widest border-b border-primary-900/20 hover:border-primary-900">GitHub</a>
+          <div className="flex gap-4">
+            <a 
+            href="https://x.com/zignatureX" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="w-10 h-10 rounded-lg border-4 border-primary-900 bg-primary-600 flex items-center justify-center text-white shadow-[4px_4px_0px_primary-900] hover:shadow-[6px_6px_0px_primary-900] hover:bg-primary-700 transition-all duration-200">
+              <FaXTwitter size={16} />
+            </a>
+            <a 
+              href="https://www.linkedin.com/company/zignature-semantics/" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="w-10 h-10 rounded-lg border-4 border-primary-900 bg-primary-600 flex items-center justify-center text-white shadow-[4px_4px_0px_primary-900] hover:shadow-[6px_6px_0px_primary-900] hover:bg-primary-700 transition-all duration-200"
+            >
+              <FaLinkedinIn size={16} />
+            </a>
+            <a 
+              href="https://www.facebook.com/share/1KxuKqhC7D/" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="w-10 h-10 rounded-lg border-4 border-primary-900 bg-primary-600 flex items-center justify-center text-white shadow-[4px_4px_0px_primary-900] hover:shadow-[6px_6px_0px_primary-900] hover:bg-primary-700 transition-all duration-200">
+              <FaFacebookF size={16} />
+            </a>
+            <a 
+              href="https://www.instagram.com/zignature.x?igsh=dmxhcXptMTRsNWE5" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="w-10 h-10 rounded-lg border-4 border-primary-900 bg-primary-600 flex items-center justify-center text-white shadow-[4px_4px_0px_primary-900] hover:shadow-[6px_6px_0px_primary-900] hover:bg-primary-700 transition-all duration-200">
+              <FaInstagram size={16} />
+            </a>
           </div>
         </div>
       </div>

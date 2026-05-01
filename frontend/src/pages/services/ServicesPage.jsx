@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom'
+import SEO from '../../components/seo/SEO'
 
 const ServicesPage = () => {
   // Client-provided content mapped into your exact structure
@@ -55,25 +56,31 @@ const ServicesPage = () => {
   ]
 
   return (
-    <div className="w-full bg-primary-50 relative z-10 overflow-hidden font-sans">
-      {/* Background Pattern */}
-      <div className="absolute inset-0 bg-[radial-gradient(#1e3a8a_1px,transparent_1px)] [background-size:20px_20px] opacity-30 pointer-events-none"></div>
-      <div className="absolute inset-0 bg-gradient-to-b from-primary-50 via-transparent to-primary-50 pointer-events-none"></div>
+    <>
+      <SEO
+        title="Services"
+        description="Explore our digital engineering and growth execution services including recruitment, managed sales, web development, and market expansion."
+        keywords="web development, recruitment, sales acquisition, marketing, gig workforce, technology solutions, market expansion"
+      />
+      <div className="w-full bg-primary-50 relative z-10 overflow-hidden font-sans">
+        {/* Background Pattern */}
+        <div className="absolute inset-0 bg-[radial-gradient(#1e3a8a_1px,transparent_1px)] [background-size:20px_20px] opacity-30 pointer-events-none"></div>
+        <div className="absolute inset-0 bg-gradient-to-b from-primary-50 via-transparent to-primary-50 pointer-events-none"></div>
 
-      {/* Hero Section */}
-      <div className="relative pt-24 pb-16 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-16">
-            <div className="inline-block mb-6 border-4 border-primary-900 bg-white px-6 py-2 shadow-[4px_4px_0_0_#1e3a8a] transform rotate-1">
-              <span className="text-sm font-black text-primary-900 uppercase tracking-widest">Capabilities</span>
+        {/* Hero Section */}
+        <div className="relative pt-24 pb-16 px-4 sm:px-6 lg:px-8">
+          <div className="max-w-7xl mx-auto">
+            <div className="text-center mb-16">
+              <div className="inline-block mb-6 border-4 border-primary-900 bg-white px-6 py-2 shadow-[4px_4px_0_0_#1e3a8a] transform rotate-1">
+                <span className="text-sm font-black text-primary-900 uppercase tracking-widest">Capabilities</span>
+              </div>
+              <h1 className="text-5xl md:text-7xl lg:text-8xl font-black text-primary-900 uppercase tracking-tighter leading-none mb-8">
+                We Are the <span className="text-primary-600">Engine.</span>
+              </h1>
+              <p className="text-xl md:text-2xl text-primary-800 max-w-3xl mx-auto leading-relaxed font-bold border-t-4 border-primary-900 pt-8 mt-8">
+                We deploy real teams, execute strategies, and deliver measurable outcomes across sales, marketing, technology, and staffing.
+              </p>
             </div>
-            <h1 className="text-5xl md:text-7xl lg:text-8xl font-black text-primary-900 uppercase tracking-tighter leading-none mb-8">
-              We Are the <span className="text-primary-600">Engine.</span>
-            </h1>
-            <p className="text-xl md:text-2xl text-primary-800 max-w-3xl mx-auto leading-relaxed font-bold border-t-4 border-primary-900 pt-8 mt-8">
-              We deploy real teams, execute strategies, and deliver measurable outcomes across sales, marketing, technology, and staffing.
-            </p>
-          </div>
 
           {/* Services Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-20">
@@ -224,10 +231,11 @@ const ServicesPage = () => {
               </div>
             </div>
           </div>
-          
+           
         </div>
       </div>
     </div>
+    </>
   )
 }
 

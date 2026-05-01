@@ -4,6 +4,7 @@ import { GoogleOAuthProvider, GoogleLogin } from '@react-oauth/google';
 import { useAuth } from '../../hooks/useAuth';
 import { useAuthStore } from '../../stores/authStore';
 import logo from '../../assets/Logo.PNG';
+import SEO from '../../components/seo/SEO';
 
 const GOOGLE_CLIENT_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID || '';
 
@@ -53,7 +54,13 @@ const LoginPage = () => {
   }
 
   return (
-    <GoogleOAuthProvider clientId={GOOGLE_CLIENT_ID}>
+    <>
+      <SEO 
+        title="Login"
+        description="Login to your Zignature Semantics account to access your profile and job applications."
+        noindex={true}
+      />
+      <GoogleOAuthProvider clientId={GOOGLE_CLIENT_ID}>
       <div className="min-h-[calc(140vh-130px)] bg-primary-50 flex items-center justify-center px-8 py-12">
         <div className="w-full max-w-md">
           <div className="text-center mb-8">
@@ -145,7 +152,8 @@ const LoginPage = () => {
               </button>
             </form>
 
-            <div className="mt-6 pt-6 border-t-2 border-primary-900/20">
+             {/* google */}
+            {/* <div className="mt-6 pt-6 border-t-2 border-primary-900/20">
               <p className="text-primary-900/60 font-mono text-xs uppercase tracking-widest mb-4 text-center">Or continue with</p>
               {GOOGLE_CLIENT_ID && GOOGLE_CLIENT_ID !== 'your-google-client-id' ? (
                 <GoogleLogin
@@ -174,7 +182,7 @@ const LoginPage = () => {
                   Google
                 </button>
               )}
-            </div>
+            </div> */}
           </div>
 
           <p className="mt-6 text-center text-primary-900">
@@ -183,9 +191,10 @@ const LoginPage = () => {
               Create an account
             </Link>
           </p>
-        </div>
-      </div>
-    </GoogleOAuthProvider>
+         </div>
+       </div>
+     </GoogleOAuthProvider>
+    </>
   );
 };
 

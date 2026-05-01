@@ -2,10 +2,17 @@ import HeroSection from '../../components/home/HeroSection'
 import LogoLoop from '../../components/home/LogoLoop'
 import { Link } from 'react-router-dom'
 import logo from '../../assets/Logo_only.PNG'
+import SEO from '../../components/seo/SEO'
 
 function HomePage() {
   return (
-    <div className="bg-primary-50 font-sans">
+    <>
+      <SEO 
+        title="Home"
+        description="Engineering monolithic structural experiences for the digital frontier. We help businesses sell smarter, build better, and hire faster."
+        keywords="web development, digital agency, growth execution, recruitment, sales, marketing, market expansion"
+      />
+      <div className="bg-primary-50 font-sans">
       {/* Hero Section */}
       <HeroSection />
       <LogoLoop />
@@ -217,8 +224,9 @@ function HomePage() {
         </div>
       </div>
 
-    </div>
-  )
-}
+     </div>
+    </>
+   )
+ }
 
-export default HomePage
+ export default HomePage

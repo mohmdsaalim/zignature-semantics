@@ -4,6 +4,7 @@ import { useAuthStore } from '../../stores/authStore';
 import { profileApi } from '../../api/profile';
 import { authApi } from '../../api/auth';
 import { HiOutlineDocumentText, HiOutlineBriefcase, HiOutlineLink, HiOutlineLockClosed, HiOutlineUser, HiOutlineTrash, HiArrowUpTray } from 'react-icons/hi2';
+import SEO from '../../components/seo/SEO';
 
 const ProfilePage = () => {
   const { user, isAuthenticated, requireAuth, logout, error, clearError } = useAuth();
@@ -201,7 +202,13 @@ const ProfilePage = () => {
   const initial = fullName ? fullName.charAt(0).toUpperCase() : displayEmail?.charAt(0).toUpperCase() || 'Z';
 
   return (
-    <div className="relative w-full bg-primary-50 min-h-screen pb-24 pt-28 md:pt-36 px-4 sm:px-6 lg:px-8 font-sans">
+    <>
+      <SEO 
+        title="My Profile"
+        description="Manage your Zignature Semantics profile, update your information, and track your job applications."
+        noindex={true}
+      />
+      <div className="relative w-full bg-primary-50 min-h-screen pb-24 pt-28 md:pt-36 px-4 sm:px-6 lg:px-8 font-sans">
       
       {/* Background Grid */}
       <style>
@@ -460,11 +467,12 @@ const ProfilePage = () => {
               )}
             </div>
 
-          </div>
+            </div>
+          
         </div>
-
       </div>
     </div>
+    </>
   );
 };
 
