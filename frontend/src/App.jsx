@@ -10,19 +10,7 @@ import LoginPage from './pages/auth/LoginPage'
 import RegisterPage from './pages/auth/RegisterPage'
 import ProfilePage from './pages/auth/ProfilePage'
 import { useAuthStore } from './stores/authStore'
-
-function AppLoader() {
-  return (
-    <div className="min-h-screen bg-primary-50 flex items-center justify-center">
-      <div className="flex flex-col items-center gap-4">
-        <div className="w-12 h-12 border-4 border-primary-900 border-t-transparent animate-spin" />
-        <p className="font-mono text-xs uppercase tracking-widest text-primary-600">
-          Loading...
-        </p>
-      </div>
-    </div>
-  )
-}
+import AppLoader from './components/ui/AppLoader'
 
 function App() {
   const { initAuth, isInitialized } = useAuthStore()

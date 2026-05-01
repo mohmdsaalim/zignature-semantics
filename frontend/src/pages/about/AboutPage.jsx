@@ -2,137 +2,161 @@ import { Link } from 'react-router-dom'
 
 const AboutPage = () => {
   return (
-    <div className="w-full bg-primary-50 relative z-10 overflow-hidden">
+    <div className="w-full bg-primary-50 relative z-10 overflow-hidden font-sans">
       {/* Background Pattern */}
-      <div className="absolute inset-0 bg-[radial-gradient(#1e3a8a_1px,transparent_1px)] [background-size:20px_20px] opacity-30"></div>
-      <div className="absolute inset-0 bg-gradient-to-b from-primary-50 via-transparent to-primary-50"></div>
+      <div className="absolute inset-0 bg-[radial-gradient(#1e3a8a_1px,transparent_1px)] [background-size:20px_20px] opacity-30 pointer-events-none"></div>
+      <div className="absolute inset-0 bg-gradient-to-b from-primary-50 via-transparent to-primary-50 pointer-events-none"></div>
 
       {/* Hero Section */}
-      <div className="relative pt-20 pb-16 px-4 sm:px-6 lg:px-8">
+      <div className="relative pt-24 pb-16 px-4 sm:px-6 lg:px-8 z-10">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
-            <div className="inline-block mb-6 border-2 border-primary-900 bg-white px-6 py-2 shadow-[4px_4px_0_0_#1e3a8a] transform rotate-1">
-              <span className="text-sm font-black text-primary-900 uppercase tracking-[0.3em]">Our Story</span>
+            <div className="inline-block mb-6 border-4 border-primary-900 bg-white px-6 py-2 shadow-[4px_4px_0_0_#1e3a8a] transform rotate-1">
+              <span className="text-sm font-black text-primary-900 uppercase tracking-[0.3em]">Who We Are</span>
             </div>
-            <h1 className="text-6xl md:text-8xl font-black text-primary-900 uppercase tracking-tighter leading-none mb-8">
-              We Build <span className="text-primary-600">Legacies</span>
+            <h1 className="text-5xl md:text-7xl lg:text-8xl font-black text-primary-900 uppercase tracking-tighter leading-none mb-8">
+              We Don't Just <span className="text-primary-600">Plan.</span><br/>We Execute.
             </h1>
-            <p className="text-xl md:text-2xl text-primary-800 max-w-3xl mx-auto leading-relaxed font-medium">
-              From startup to industry leader — we engineer growth strategies that transform businesses into market powerhouses.
+            <p className="text-xl md:text-2xl text-primary-800 max-w-3xl mx-auto leading-relaxed font-bold border-t-4 border-primary-900 pt-8 mt-8">
+              Most companies know exactly what to do. They just don’t have the right team to do it. That’s where Zignature Semantics comes in.
             </p>
           </div>
 
           {/* Main Content Grid */}
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-20">
+            
             {/* Left - Story Card */}
             <div className="lg:col-span-7">
-              <div className="bg-white border-4 border-primary-900 p-8 md:p-12 shadow-[12px_12px_0_0_#1e3a8a] relative">
+              <div className="bg-white border-4 border-primary-900 p-8 md:p-12 shadow-[12px_12px_0_0_#1e3a8a] relative h-full flex flex-col justify-center">
                 <div className="absolute -top-4 -left-4 bg-primary-900 text-white font-black text-sm px-4 py-2 uppercase tracking-wider">
-                  Since 2015
+                  The Problem Solvers
                 </div>
-                <h2 className="text-4xl md:text-5xl font-black text-primary-900 uppercase tracking-tighter mb-6">
-                  Systems <span className="text-primary-600">Over</span> Chaos
+                <h2 className="text-4xl md:text-5xl font-black text-primary-900 uppercase tracking-tighter mb-6 leading-tight">
+                  Consultants Talk.<br/><span className="text-primary-600">We Deliver.</span>
                 </h2>
-                <p className="text-lg text-primary-800 leading-relaxed mb-6">
-                  We don't just design interfaces — we engineer monolithic structural experiences built for massive impact and uncompromising precision. Function strictly dictates form.
+                <p className="text-lg font-bold text-primary-800 leading-relaxed mb-6">
+                  Zignature Semantics Private Limited was built to solve the execution bottleneck in business growth. We don't just hand you a strategy document—we deploy real teams, execute aggressive strategies, and deliver measurable outcomes.
                 </p>
-                <p className="text-base text-primary-700 leading-relaxed">
-                  Our protocol is simple: remove decorative fluff, optimize interaction pathways, and build systems that scale continuously without friction. True aesthetics are derived from structural perfection.
-                </p>
+                <div className="bg-primary-50 border-l-4 border-primary-900 p-4">
+                  <p className="text-base font-black text-primary-900 uppercase tracking-widest">
+                    No overthinking. No delays. Just results.
+                  </p>
+                </div>
               </div>
             </div>
 
-            {/* Right - Stats */}
+            {/* Right - Our Approach (2x2 Grid replacing stats) */}
             <div className="lg:col-span-5 grid grid-cols-2 gap-4">
-              <div className="bg-primary-900 text-white border-4 border-primary-900 p-6 shadow-[8px_8px_0_0_#1e3a8a] transform hover:-translate-y-2 transition-transform duration-300">
-                <div className="text-5xl font-black mb-2">10+</div>
-                <div className="text-sm font-bold uppercase tracking-wider opacity-80">Years Experience</div>
+              <div className="bg-primary-900 text-white border-4 border-primary-900 p-6 shadow-[8px_8px_0_0_#1e3a8a] transform hover:-translate-y-2 transition-transform duration-300 flex flex-col justify-center">
+                <div className="text-4xl lg:text-5xl font-black mb-2 tracking-tighter">01</div>
+                <div className="text-sm md:text-base font-black uppercase tracking-widest text-primary-300">Understand</div>
+                <p className="text-xs mt-2 opacity-80 font-bold hidden sm:block">Aligning with your core business targets.</p>
               </div>
-              <div className="bg-white text-primary-900 border-4 border-primary-900 p-6 shadow-[8px_8px_0_0_#1e3a8a] transform hover:-translate-y-2 transition-transform duration-300">
-                <div className="text-5xl font-black mb-2">500+</div>
-                <div className="text-sm font-bold uppercase tracking-wider opacity-80">Projects Delivered</div>
+              <div className="bg-white text-primary-900 border-4 border-primary-900 p-6 shadow-[8px_8px_0_0_#1e3a8a] transform hover:-translate-y-2 transition-transform duration-300 flex flex-col justify-center">
+                <div className="text-4xl lg:text-5xl font-black mb-2 tracking-tighter">02</div>
+                <div className="text-sm md:text-base font-black uppercase tracking-widest text-primary-600">Execute</div>
+                <p className="text-xs mt-2 font-bold hidden sm:block">Deploying teams on-ground and online.</p>
               </div>
-              <div className="bg-white text-primary-900 border-4 border-primary-900 p-6 shadow-[8px_8px_0_0_#1e3a8a] transform hover:-translate-y-2 transition-transform duration-300">
-                <div className="text-5xl font-black mb-2">98%</div>
-                <div className="text-sm font-bold uppercase tracking-wider opacity-80">Success Rate</div>
+              <div className="bg-white text-primary-900 border-4 border-primary-900 p-6 shadow-[8px_8px_0_0_#1e3a8a] transform hover:-translate-y-2 transition-transform duration-300 flex flex-col justify-center">
+                <div className="text-4xl lg:text-5xl font-black mb-2 tracking-tighter">03</div>
+                <div className="text-sm md:text-base font-black uppercase tracking-widest text-primary-600">Scale</div>
+                <p className="text-xs mt-2 font-bold hidden sm:block">Expanding into new markets rapidly.</p>
               </div>
-              <div className="bg-primary-600 text-white border-4 border-primary-900 p-6 shadow-[8px_8px_0_0_#1e3a8a] transform hover:-translate-y-2 transition-transform duration-300">
-                <div className="text-5xl font-black mb-2">24/7</div>
-                <div className="text-sm font-bold uppercase tracking-wider opacity-80">Support</div>
+              <div className="bg-primary-600 text-white border-4 border-primary-900 p-6 shadow-[8px_8px_0_0_#1e3a8a] transform hover:-translate-y-2 transition-transform duration-300 flex flex-col justify-center">
+                <div className="text-4xl lg:text-5xl font-black mb-2 tracking-tighter">04</div>
+                <div className="text-sm md:text-base font-black uppercase tracking-widest text-primary-200">Deliver</div>
+                <p className="text-xs mt-2 opacity-90 font-bold hidden sm:block">Generating measurable ROI and growth.</p>
               </div>
             </div>
           </div>
 
-          {/* Mission Vision Values */}
+          {/* Mission / Expertise / Edge */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-20">
-            <div className="bg-white border-4 border-primary-900 p-8 shadow-[8px_8px_0_0_#1e3a8a] hover:shadow-[12px_12px_0_0_#1e3a8a] hover:translate-x-[-4px] hover:translate-y-[-4px] transition-all duration-300">
-              <div className="w-14 h-14 bg-primary-600 border-2 border-primary-900 mb-6 flex items-center justify-center">
+            
+            {/* Mission */}
+            <div className="bg-white border-4 border-primary-900 p-8 shadow-[8px_8px_0_0_#1e3a8a] hover:translate-x-[4px] hover:translate-y-[4px] hover:shadow-[4px_4px_0_0_#1e3a8a] transition-all duration-300 flex flex-col">
+              <div className="w-14 h-14 bg-primary-600 border-4 border-primary-900 mb-6 flex items-center justify-center shrink-0">
                 <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="square" strokeWidth="3" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                  <path strokeLinecap="square" strokeWidth="2.5" d="M13 10V3L4 14h7v7l9-11h-7z" />
                 </svg>
               </div>
-              <h3 className="text-2xl font-black text-primary-900 uppercase mb-4">Mission</h3>
-              <p className="text-primary-700 leading-relaxed">
-                To empower brands with data-driven strategies and bold creative that delivers measurable, sustainable growth.
+              <h3 className="text-2xl font-black text-primary-900 uppercase mb-4 tracking-tighter">Our Mission</h3>
+              <p className="text-primary-800 font-bold leading-relaxed">
+                To help businesses <span className="text-primary-600 uppercase font-black">sell smarter</span>, <span className="text-primary-600 uppercase font-black">build better</span>, and <span className="text-primary-600 uppercase font-black">hire faster</span> with strong systems and relentless execution.
               </p>
             </div>
 
-            <div className="bg-white border-4 border-primary-900 p-8 shadow-[8px_8px_0_0_#1e3a8a] hover:shadow-[12px_12px_0_0_#1e3a8a] hover:translate-x-[-4px] hover:translate-y-[-4px] transition-all duration-300">
-              <div className="w-14 h-14 bg-primary-600 border-2 border-primary-900 mb-6 flex items-center justify-center">
+            {/* Expertise */}
+            <div className="bg-white border-4 border-primary-900 p-8 shadow-[8px_8px_0_0_#1e3a8a] hover:translate-x-[4px] hover:translate-y-[4px] hover:shadow-[4px_4px_0_0_#1e3a8a] transition-all duration-300 flex flex-col">
+              <div className="w-14 h-14 bg-primary-600 border-4 border-primary-900 mb-6 flex items-center justify-center shrink-0">
                 <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="square" strokeWidth="3" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                  <path strokeLinecap="square" strokeWidth="3" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                  <path strokeLinecap="square" strokeWidth="2.5" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
                 </svg>
               </div>
-              <h3 className="text-2xl font-black text-primary-900 uppercase mb-4">Vision</h3>
-              <p className="text-primary-700 leading-relaxed">
-                To be the go-to growth partner for ambitious brands seeking to dominate their markets through innovation.
+              <h3 className="text-2xl font-black text-primary-900 uppercase mb-4 tracking-tighter">Domain Expertise</h3>
+              <p className="text-primary-800 font-bold leading-relaxed mb-4">
+                We operate across multiple market verticals, executing strategies for:
               </p>
+              <div className="flex flex-wrap gap-2 mt-auto">
+                {['B2B', 'B2C', 'B2Retail', 'B2B2C', 'B2SMB'].map(tag => (
+                  <span key={tag} className="bg-primary-100 text-primary-900 border-2 border-primary-900 px-2 py-1 text-xs font-black uppercase">{tag}</span>
+                ))}
+              </div>
             </div>
 
-            <div className="bg-white border-4 border-primary-900 p-8 shadow-[8px_8px_0_0_#1e3a8a] hover:shadow-[12px_12px_0_0_#1e3a8a] hover:translate-x-[-4px] hover:translate-y-[-4px] transition-all duration-300">
-              <div className="w-14 h-14 bg-primary-600 border-2 border-primary-900 mb-6 flex items-center justify-center">
-                <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="square" strokeWidth="3" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+            {/* Why Us */}
+            <div className="bg-primary-900 border-4 border-primary-900 p-8 shadow-[8px_8px_0_0_#1e3a8a] hover:translate-x-[4px] hover:translate-y-[4px] hover:shadow-[4px_4px_0_0_#1e3a8a] transition-all duration-300 flex flex-col text-white">
+              <div className="w-14 h-14 bg-white border-4 border-primary-900 mb-6 flex items-center justify-center shrink-0">
+                <svg className="w-8 h-8 text-primary-900" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="square" strokeWidth="2.5" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
               </div>
-              <h3 className="text-2xl font-black text-primary-900 uppercase mb-4">Values</h3>
-              <p className="text-primary-700 leading-relaxed">
-                Innovation, integrity, and results. We obsess over outcomes, not just outputs. Every decision is data-backed.
-              </p>
+              <h3 className="text-2xl font-black uppercase mb-4 tracking-tighter">Why Choose Us</h3>
+              <ul className="space-y-3 font-bold text-primary-100">
+                <li className="flex items-center gap-2"><span className="text-white">▪</span> Execution-focused</li>
+                <li className="flex items-center gap-2"><span className="text-white">▪</span> Fast and reliable deployment</li>
+                <li className="flex items-center gap-2"><span className="text-white">▪</span> Engineered for scale</li>
+                <li className="flex items-center gap-2"><span className="text-white">▪</span> Strictly results-driven</li>
+              </ul>
             </div>
+
           </div>
 
           {/* CTA Section */}
-          <div className="bg-primary-900 border-4 border-primary-900 p-12 md:p-16 shadow-[12px_12px_0_0_#1e3a8a] relative overflow-hidden">
-            <div className="absolute top-0 right-0 w-64 h-64 bg-primary-600 rounded-full blur-3xl opacity-30"></div>
+          <div className="bg-white border-4 border-primary-900 p-12 md:p-16 shadow-[12px_12px_0_0_#1e3a8a] relative overflow-hidden">
+            {/* Background geometric accents */}
+            <div className="absolute -top-10 -right-10 w-40 h-40 border-8 border-primary-100 rounded-full"></div>
+            <div className="absolute -bottom-10 -left-10 w-40 h-40 border-8 border-primary-100 rounded-full"></div>
+            
             <div className="relative z-10 text-center">
-              <h2 className="text-4xl md:text-5xl font-black text-white uppercase tracking-tighter mb-6">
-                Ready to <span className="text-primary-400">Transform</span> Your Business?
+              <div className="inline-block mb-4 bg-primary-900 text-white px-4 py-1 text-sm font-black uppercase tracking-widest border-2 border-primary-900">
+                Take Action
+              </div>
+              <h2 className="text-4xl md:text-5xl lg:text-6xl font-black text-primary-900 uppercase tracking-tighter mb-6">
+                Ready to <span className="text-primary-600">Execute?</span>
               </h2>
-              <p className="text-xl text-primary-200 mb-8 max-w-2xl mx-auto">
-                Let's build something extraordinary together. Our team is ready to take your brand to the next level.
+              <p className="text-xl font-bold text-primary-800 mb-10 max-w-2xl mx-auto">
+                We don't just support your business—we build the engine that drives it. Let's deploy the right team for your growth today.
               </p>
-              <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              
+              <div className="flex flex-col sm:flex-row gap-6 justify-center">
                 <Link to="/contact">
-                  <button className="bg-white text-primary-900 font-bold py-4 px-10 uppercase tracking-wider border-2 border-white shadow-[4px_4px_0_0_#1e3a8a] hover:bg-primary-50 hover:shadow-none hover:translate-x-[4px] hover:translate-y-[4px] transition-all text-lg">
-                    Get In Touch
+                  <button className="bg-primary-900 text-white font-black py-4 px-10 uppercase tracking-wider border-4 border-primary-900 shadow-[6px_6px_0_0_#1e3a8a] hover:bg-white hover:text-primary-900 hover:shadow-none hover:translate-x-[6px] hover:translate-y-[6px] transition-all text-lg w-full sm:w-auto">
+                    Contact Us
                   </button>
                 </Link>
                 <Link to="/services">
-                  <button className="bg-transparent text-white font-bold py-4 px-10 uppercase tracking-wider border-2 border-white shadow-[4px_4px_0_0_#1e3a8a] hover:bg-white hover:text-primary-900 hover:shadow-none hover:translate-x-[4px] hover:translate-y-[4px] transition-all text-lg">
-                    Our Services
+                  <button className="bg-white text-primary-900 font-black py-4 px-10 uppercase tracking-wider border-4 border-primary-900 shadow-[6px_6px_0_0_#1e3a8a] hover:bg-primary-50 hover:shadow-none hover:translate-x-[6px] hover:translate-y-[6px] transition-all text-lg w-full sm:w-auto">
+                    View Services
                   </button>
                 </Link>
               </div>
             </div>
           </div>
+
         </div>
       </div>
 
-      {/* Decorative Elements */}
-      <div className="absolute -left-20 top-1/4 w-40 h-40 border-4 border-primary-900/10 rotate-45 hidden lg:block"></div>
-      <div className="absolute -right-20 bottom-1/4 w-60 h-60 border-4 border-primary-900/10 rotate-12 hidden lg:block"></div>
     </div>
   );
 };

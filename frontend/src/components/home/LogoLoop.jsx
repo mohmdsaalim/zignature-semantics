@@ -9,7 +9,7 @@ const LogoLoop = () => {
   const duplicatedLogos = [...logos, ...logos, ...logos, ...logos];
 
   return (
-    <div className="w-full bg-primary-50 pb-16 overflow-hidden flex flex-col items-center relative z-20">
+    <div className="w-full bg-primary-50 pb-2 overflow-hidden flex flex-col items-center relative z-20">
 
       {/* --- MATCHING GRID BACKGROUND --- */}
       <style>

@@ -1,0 +1,47 @@
+[
+  {
+    "id": 1,
+    "type": "job_alert",
+    "title": "New Job Match",
+    "message": "React Developer position at Acme Inc. matches your skills",
+    "timestamp": "2026-04-30T10:00:00Z",
+    "read": false,
+    "link": "/careers/jobs/react-developer-acme"
+  },
+  {
+    "id": 2,
+    "type": "application_update",
+    "title": "Application Status Updated",
+    "message": "Your application for UX Designer moved to Interview stage",
+    "timestamp": "2026-04-29T14:30:00Z",
+    "read": false,
+    "link": "/profile/applications"
+  },
+  {
+    "id": 3,
+    "type": "message",
+    "title": "New Message from Recruiter",
+    "message": "You have a new message regarding your Senior Developer application",
+    "timestamp": "2026-04-28T09:15:00Z",
+    "read": true,
+    "link": "/messages/123"
+  },
+  {
+    "id": 4,
+    "type": "system",
+    "title": "Profile Update Reminder",
+    "message": "Complete your profile to get better job matches",
+    "timestamp": "2026-04-27T16:45:00Z",
+    "read": true,
+    "link": "/profile"
+  },
+  {
+    "id": 5,
+    "type": "job_alert",
+    "title": "New Job Match",
+    "message": "Backend Developer at StartupXYZ matches your profile",
+    "timestamp": "2026-04-26T11:20:00Z",
+    "read": false,
+    "link": "/careers/jobs/backend-developer-startupxyz"
+  }
+]

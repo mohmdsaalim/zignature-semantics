@@ -1,4 +1,5 @@
 import React from 'react';
+import logo from '../../assets/Logo_only.PNG'
 
 const HeroSection = () => {
   return (
@@ -53,12 +54,36 @@ const HeroSection = () => {
 
         {/* Top Right: User Avatars */}
         <div className="hidden lg:flex absolute top-12 -right-4 xl:-right-12 bg-primary-100 border-4 border-primary-900 p-1.5 shadow-[4px_4px_0_0_#1e3a8a] items-center animate-float-delayed cursor-default">
-          <div className="flex -space-x-3 pr-3 pl-1 py-1">
-            <div className="w-10 h-10 rounded-full border-4 border-primary-900 bg-white flex items-center justify-center text-primary-900 text-base font-black z-30">Z</div>
-            <div className="w-10 h-10 rounded-full border-4 border-primary-900 bg-primary-600 flex items-center justify-center text-white text-base font-black z-20">S</div>
-            <div className="w-10 h-10 rounded-full border-4 border-primary-900 bg-primary-200 flex items-center justify-center text-primary-900 text-base font-black z-10">M</div>
+        <div className="flex -space-x-3 pr-3 pl-1 py-1">
+          {/* Avatar 1 */}
+          <div className="w-10 h-10 rounded-full border-4 border-primary-900 bg-white overflow-hidden z-30">
+            <img 
+              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTK6gonZOgSNlGpzehTZxzghOJ-L2wXK6_ilg&s" 
+              alt="User 1" 
+              className="w-full h-full object-cover"
+            />
+          </div>
+          
+          {/* Avatar 2 */}
+          <div className="w-10 h-10 rounded-full border-4 border-primary-900 bg-primary-200 overflow-hidden z-20">
+            <img 
+              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT3NWlso4xu4cCFvp7-CbkPA5-CVNGgMQLUUw&s" 
+              alt="User 2" 
+              className="w-full h-full object-cover"
+            />
+          </div>
+
+          {/* Avatar 3 */}
+          <div className="w-10 h-10 rounded-full border-4 border-primary-900 bg-primary-600 overflow-hidden z-10">
+            <img 
+              src="https://static.vecteezy.com/system/resources/thumbnails/025/465/161/small/young-blonde-woman-in-glasses-monochrome-flat-linear-character-head-short-bob-haircut-editable-outline-hand-drawn-human-face-icon-2d-cartoon-spot-avatar-illustration-for-animation-vector.jpg" 
+              alt="User 3" 
+              className="w-full h-full object-cover"
+            />
           </div>
         </div>
+      </div>
+
 
         {/* Bottom Left: Find Best Job */}
         <div className="hidden lg:flex absolute bottom-12 left-0 xl:-left-4 bg-white border-4 border-primary-900 p-3 shadow-[4px_4px_0_0_#1e3a8a] flex-col items-center gap-2 animate-float-delayed cursor-default">
@@ -79,14 +104,18 @@ const HeroSection = () => {
         </div>
 
         {/* --- Doodle Arrows (Hidden on Mobile) --- */}
-        <svg className="absolute top-20 left-12 xl:left-8 w-12 h-12 text-primary-900 hidden lg:block" fill="none" viewBox="0 0 100 100" stroke="currentColor" strokeWidth="4" strokeLinecap="square" strokeLinejoin="miter">
-          <path d="M 20,20 Q 50,20 60,60 T 90,80" />
-          <path d="M 75,70 L 90,80 L 85,95" />
+        <svg className="absolute top-19 left-12 xl:left-8 w-12 h-12 text-primary-900 hidden lg:block opacity-40" 
+            viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M3 3c7 0 10 8 18 11" />
+          <path d="M16 14.5l5 0.5l-1 -5" />
         </svg>
-        <svg className="absolute bottom-28 right-16 xl:right-12 w-12 h-12 text-primary-900 hidden lg:block" fill="none" viewBox="0 0 100 100" stroke="currentColor" strokeWidth="4" strokeLinecap="square" strokeLinejoin="miter">
-          <path d="M 80,80 Q 60,80 50,40 T 20,20" />
-          <path d="M 35,15 L 20,20 L 25,35" />
+
+        <svg className="absolute bottom-27 right-16 xl:right-12 w-12 h-12 text-primary-900 hidden lg:block opacity-40" 
+            viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M21 21c-7 0-10-8-18-11" />
+          <path d="M8 9.5l-5 -0.5l1 5" />
         </svg>
+
 
 
         {/* =========================================
@@ -105,7 +134,7 @@ const HeroSection = () => {
           
           {/* Center Card */}
           <div className="relative bottom-2 w-28 md:w-32 h-36 md:h-40 bg-primary-600 border-4 border-primary-900 shadow-[6px_6px_0_0_#1e3a8a] z-20 flex flex-col items-center pt-5">
-            <div className="w-12 h-12 md:w-14 md:h-14 border-4 border-primary-900 bg-white flex items-center justify-center font-black text-xl md:text-2xl text-primary-900 rounded-full mb-3">Z</div>
+            <div className="w-12 h-12 md:w-14 md:h-14 border-4 border-primary-900 bg-white flex items-center justify-center font-black text-xl md:text-2xl text-primary-900 rounded-full mb-3 overflow-hidden"> <img src={logo} alt="ZEG Logo" className="h-16 md:h-20 w-auto object-cover mix-blend-darken" /></div>
             <div className="w-14 md:w-16 h-2 md:h-2.5 bg-primary-900 mb-2"></div>
             <div className="w-10 md:w-12 h-2 md:h-2.5 bg-primary-900"></div>
           </div>

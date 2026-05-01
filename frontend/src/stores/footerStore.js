@@ -11,7 +11,7 @@ export const useFooterStore = create((set) => ({
   companyInfo: {
     name: 'Zignature',
     tagline: 'Building the future with innovative solutions.',
-    email: 'contact@zignature.com',
+    email: 'contact@zignature.co.in',
   },
   setFooterLinks: (links) => set({ footerLinks: links }),
   setCompanyInfo: (info) => set({ companyInfo: info }),
