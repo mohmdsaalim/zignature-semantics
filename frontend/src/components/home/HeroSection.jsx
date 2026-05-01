@@ -1,5 +1,6 @@
 import React from 'react';
 import logo from '../../assets/Logo_only.PNG'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 
 const HeroSection = () => {
   return (
@@ -176,12 +177,12 @@ const HeroSection = () => {
 
         {/* Call to Actions - Using your provided CSS classes! */}
         <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 w-full sm:w-auto px-6 sm:px-0 z-20">
-          <button className="boxy-btn w-full sm:w-auto text-lg md:text-xl px-12">
+          <Link to='/careers' className="boxy-btn w-full sm:w-auto text-lg md:text-xl px-12">
             Find Jobs
-          </button>
-          <button className="boxy-btn-secondary w-full sm:w-auto text-lg md:text-xl px-12">
-            Post a Job
-          </button>
+          </Link>
+          <Link to='/about' className="boxy-btn-secondary w-full sm:w-auto text-lg md:text-xl px-12">
+            About US
+          </Link>
         </div>
             
       </div>

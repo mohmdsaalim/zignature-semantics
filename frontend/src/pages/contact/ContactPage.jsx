@@ -1,9 +1,16 @@
 import React from 'react';
 import { HiOutlineChatBubbleLeftEllipsis, HiOutlineBuildingOffice, HiOutlineEnvelope } from 'react-icons/hi2';
+import SEO from '../../components/seo/SEO';
 
 const ContactPage = ({ embedded = false }) => {
   return (
-    <div className={`relative w-full bg-primary-50 font-sans ${embedded ? '' : 'min-h-screen pb-24 pt-28 md:pt-36'} px-4 sm:px-6 lg:px-8`}>
+    <>
+      <SEO 
+        title="Contact Us"
+        description="Get in touch with Zignature Semantics. We'd love to hear from you. Contact us for business inquiries, support, or partnerships."
+        keywords="contact zignature, support, business inquiries, employer sales, job seeker support, headquarters"
+      />
+      <div className={`relative w-full bg-primary-50 font-sans ${embedded ? '' : 'min-h-screen pb-24 pt-28 md:pt-36'} px-4 sm:px-6 lg:px-8`}>
       
       {/* Background Grid Pattern */}
       {!embedded && (
@@ -149,6 +156,7 @@ const ContactPage = ({ embedded = false }) => {
         </div>
       </div>
     </div>
+    </>
   );
 };
 

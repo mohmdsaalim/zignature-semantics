@@ -1,8 +1,15 @@
 import { Link } from 'react-router-dom'
+import SEO from '../../components/seo/SEO'
 
 const AboutPage = () => {
   return (
-    <div className="w-full bg-primary-50 relative z-10 overflow-hidden font-sans">
+    <>
+      <SEO 
+        title="About Us"
+        description="Learn about Zignature Semantics, our execution-focused mission, and why companies choose us as their growth partner."
+        keywords="about zignature, growth execution, business scaling, execution partner, company mission"
+      />
+      <div className="w-full bg-primary-50 relative z-10 overflow-hidden font-sans">
       {/* Background Pattern */}
       <div className="absolute inset-0 bg-[radial-gradient(#1e3a8a_1px,transparent_1px)] [background-size:20px_20px] opacity-30 pointer-events-none"></div>
       <div className="absolute inset-0 bg-gradient-to-b from-primary-50 via-transparent to-primary-50 pointer-events-none"></div>
@@ -157,8 +164,9 @@ const AboutPage = () => {
         </div>
       </div>
 
-    </div>
-  );
-};
+     </div>
+    </>
+   );
+ };
 
 export default AboutPage;

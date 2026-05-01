@@ -95,7 +95,7 @@ function Navbar() {
                   </Link>
 
                   {/* Notification Bell (Boxy) */}
-                  <div className="notification-container relative">
+                  {/* <div className="notification-container relative">
                     <button
                       onClick={() => setIsNotificationOpen(!isNotificationOpen)}
                       className="relative w-11 h-11 border-2 border-primary-900 bg-primary-50 flex items-center justify-center text-primary-900 shadow-[4px_4px_0_0_#1e3a8a] hover:shadow-none hover:translate-x-[4px] hover:translate-y-[4px] transition-all"
@@ -106,7 +106,7 @@ function Navbar() {
                     {isNotificationOpen && (
                       <NotificationDropdown onClose={() => setIsNotificationOpen(false)} />
                     )}
-                  </div>
+                  </div> */}
 
                   {/* User Profile Dropdown */}
                   <div className="relative">
@@ -151,7 +151,7 @@ function Navbar() {
             {/* --- MOBILE HAMBURGER BUTTON (YOUR CUSTOM ANIMATION RESTORED) --- */}
             <div className="flex items-center gap-4 lg:hidden">
               {/* Show bell on mobile if auth'd */}
-              {isAuthenticated && (
+              {/* {isAuthenticated && (
                 <div className="notification-container relative">
                   <button
                     onClick={() => setIsNotificationOpen(!isNotificationOpen)}
@@ -166,7 +166,7 @@ function Navbar() {
                     <NotificationDropdown onClose={() => setIsNotificationOpen(false)} />
                   )}
                 </div>
-              )}
+              )} */}
               
               <button
                 className="w-12 h-12 border-2 border-primary-900 bg-primary-50 flex items-center justify-center text-primary-900 shadow-[4px_4px_0_0_#1e3a8a] active:shadow-none active:translate-x-[4px] active:translate-y-[4px] transition-all"
